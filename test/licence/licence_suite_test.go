@@ -51,7 +51,7 @@ var _ = BeforeEach(func() {
 })
 
 var _ = AfterSuite(func() {
-	TestRig.ExpectMinimumCoverage("licence.sol", 90.00)
+	TestRig.ExpectMinimumCoverage("licence.sol", 100.00)
 	TestRig.PrintGasUsage(os.Stdout)
 })
 
