@@ -12,6 +12,7 @@ interface Burner {
     function currentSupply() external view returns (uint);
 }
 
+
 contract BurnerToken {
 
     using SafeMath for uint256;
@@ -32,6 +33,11 @@ contract BurnerToken {
     //Holds accumulated dividend tokens other than TKN
     TokenHolder public tokenholder;
 
+    modifier onlyPayloadSize(uint numwords) {
+        assert(msg.data.length == numwords * 32 + 4);
+        _;
+    }
+
     constructor() public {
         owner = msg.sender;
         name = "Monolith TKN";
@@ -43,15 +49,17 @@ contract BurnerToken {
         return currentSupply;
     }
 
-    function mint(address addr, uint amount) external {
+    function mint(address addr, uint amount) external onlyPayloadSize(2) {
         balanceOf[addr] = balanceOf[addr].add(amount);
         currentSupply = currentSupply.add(amount);
         emit Transfer(address(0), addr, amount);
     }
 
-    function transfer(address _to, uint _value) external returns (bool success) {
-        if (balanceOf[msg.sender] < _value) return false;
-        if (_to == address(0)) return false;
+    function transfer(address _to, uint _value) external onlyPayloadSize(2) returns (bool success) {
+        if (balanceOf[msg.sender] < _value)
+            return false;
+        if (_to == address(0))
+            return false;
 
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
         balanceOf[_to] = balanceOf[_to].add(_value);
@@ -59,12 +67,15 @@ contract BurnerToken {
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint _value) external returns (bool success) {
-        if (_to == address(0)) return false;
-        if (balanceOf[_from] < _value) return false;
+    function transferFrom(address _from, address _to, uint _value) external onlyPayloadSize(3) returns (bool success) {
+        if (_to == address(0))
+            return false;
+        if (balanceOf[_from] < _value)
+            return false;
 
         uint allowed = allowance[_from][msg.sender];
-        if (allowed < _value) return false;
+        if (allowed < _value)
+            return false;
 
         balanceOf[_to] = balanceOf[_to].add(_value);
         balanceOf[_from] = balanceOf[_from].sub(_value);
@@ -73,7 +84,7 @@ contract BurnerToken {
         return true;
     }
 
-    function approve(address _spender, uint _value) external returns (bool success) {
+    function approve(address _spender, uint _value) external onlyPayloadSize(2) returns (bool success) {
         //require user to set to zero before resetting to nonzero
         if ((_value != 0) && (allowance[msg.sender][_spender] != 0)) {
             return false;
@@ -84,14 +95,14 @@ contract BurnerToken {
         return true;
     }
 
-    function increaseApproval (address _spender, uint _addedValue) external returns (bool success) {
+    function increaseApproval (address _spender, uint _addedValue) external onlyPayloadSize(2) returns (bool success) {
         uint oldValue = allowance[msg.sender][_spender];
         allowance[msg.sender][_spender] = oldValue.add(_addedValue);
         emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
         return true;
     }
 
-    function decreaseApproval (address _spender, uint _subtractedValue) external returns (bool success) {
+    function decreaseApproval (address _spender, uint _subtractedValue) external onlyPayloadSize(2) returns (bool success) {
         uint oldValue = allowance[msg.sender][_spender];
         if (_subtractedValue > oldValue) {
             allowance[msg.sender][_spender] = 0;
@@ -106,13 +117,15 @@ contract BurnerToken {
         tokenholder = TokenHolder(_th);
     }
 
-    function burn(uint _amount) public returns (bool result)  {
-        if (_amount > balanceOf[msg.sender]) return false;
+    function burn(uint _amount) public returns (bool result) {
+        if (_amount > balanceOf[msg.sender])
+            return false;
 
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(_amount);
-        currentSupply  = currentSupply.sub(_amount);
+        currentSupply = currentSupply.sub(_amount);
         result = tokenholder.burn(msg.sender, _amount);
-        if (!result) revert();
+        if (!result)
+            revert();
         emit Transfer(msg.sender, address(0), _amount);
     }
 }
