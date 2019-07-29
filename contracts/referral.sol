@@ -9,9 +9,10 @@ interface TKN {
 
 contract Referral is ERC721, Ownable {
 
-    event MintedReferralTokens(address from, uint amount, uint newSupply);
+    event MintedReferralTokens(address _from, uint _amount, uint _newSupply);
+    event IssuedReferralTokens(address _from, address _to, uint _amount);
 
-    uint constant private _MAX_REF_TOKENS_GIVEN = 5;
+    uint constant private _MAX_REF_TOKENS_GIVEAWAY = 5;
 
     uint public totalSupply;
     uint public referralIndex;
@@ -20,8 +21,8 @@ contract Referral is ERC721, Ownable {
 
     TKN tkn;
 
-    mapping (uint => bool) activated;
-    mapping (uint => address) firstOwner;
+    mapping (uint => bool) public activated;
+    mapping (uint => address) public firstOwner;
 
     constructor(uint _totalSuply, address _TKNAddress) Ownable(msg.sender, false) public  {
         totalSupply = _totalSuply;
@@ -29,25 +30,34 @@ contract Referral is ERC721, Ownable {
         TKNBonus = 10;
     }
 
-    function mintReferralTokens(uint amount) external onlyOwner {
-        uint newMinted = mintedTokens + amount;
+    function mintReferralTokens(uint _amount) external onlyOwner {
+        uint newMinted = mintedTokens + _amount;
         require(newMinted > mintedTokens, "overflow or 0 input");
         require(newMinted <= totalSupply, "total supply exceeded");
         for(uint i = mintedTokens; i < newMinted; i++) {
             _mint(msg.sender, i);
         }
         mintedTokens = newMinted;
-        emit MintedReferralTokens(msg.sender, amount, mintedTokens);
+        emit MintedReferralTokens(msg.sender, _amount, mintedTokens);
     }
 
-    function issueReferralTokens(address _to, uint _count) external onlyOwner {
-        require(referralIndex + _count < totalSupply, "tokens exceeded the mac suppply!");
-        require(_count <= _MAX_REF_TOKENS_GIVEN, "too many referral tokens given!");
-        for(uint tokenid = referralIndex; tokenid < referralIndex + _count; tokenid++) {
+    function issueReferralTokens(address _to, uint _amount) external onlyOwner {
+        //there is no overflow check because the maximum issuance is capped by _MAX_REF_TOKENS_GIVEN
+        require(_amount <= _MAX_REF_TOKENS_GIVEAWAY, "too many referral tokens given!");
+        uint toBeIssued;
+        if(_amount == 0) {
+            toBeIssued = 1;
+        }
+        else{
+            toBeIssued = _amount;
+        }
+        require(referralIndex + toBeIssued <= mintedTokens, "tokens exceed the current suppply!");
+        for(uint tokenid = referralIndex; tokenid < referralIndex + toBeIssued; tokenid++) {
             _transferFrom(msg.sender, _to, tokenid);
             firstOwner[tokenid] = _to;
         }
-        referralIndex += _count;
+        referralIndex += toBeIssued;
+        emit IssuedReferralTokens(msg.sender, _to, toBeIssued);
     }
 
     function transferReferralToken(address _to, uint _tokenid) external {
