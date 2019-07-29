@@ -13,7 +13,7 @@ var _ = Describe("Mint", func() {
 
 	When("the Owner mints", func() {
         BeforeEach(func() {
-            tx, err := Referral.MintReferralTokens(Owner.TransactOpts())
+            tx, err := Referral.MintReferralTokens(Owner.TransactOpts(), big.NewInt(50))
             Expect(err).ToNot(HaveOccurred())
             Backend.Commit()
             Expect(isSuccessful(tx)).To(BeTrue())
@@ -22,7 +22,7 @@ var _ = Describe("Mint", func() {
         It("should update the number of total tokens minted", func(){
             tm, err := Referral.MintedTokens(nil)
             Expect(err).ToNot(HaveOccurred())
-            Expect(tm.String()).To(Equal(big.NewInt(10).String()))
+            Expect(tm.String()).To(Equal(big.NewInt(50).String()))
         })
 
         It("should amit a MintedReferralTokens event", func(){
@@ -31,15 +31,16 @@ var _ = Describe("Mint", func() {
             Expect(it.Next()).To(BeTrue())
             evt := it.Event
             Expect(it.Next()).To(BeFalse())
-            Expect(evt.Amount.String()).To(Equal("10"))
-            Expect(evt.NewSupply.String()).To(Equal("10"))
+            Expect(evt.From).To(Equal(Owner.Address()))
+            Expect(evt.Amount.String()).To(Equal("50"))
+            Expect(evt.NewSupply.String()).To(Equal("50"))
         })
 
 	})
 
     When("a random account tries to mint", func() {
         It("should fail", func(){
-            tx, err := Referral.MintReferralTokens(RandomAccount.TransactOpts(ethertest.WithGasLimit(80000)))
+            tx, err := Referral.MintReferralTokens(RandomAccount.TransactOpts(ethertest.WithGasLimit(80000)), big.NewInt(50))
             Expect(err).ToNot(HaveOccurred())
             Backend.Commit()
             Expect(isSuccessful(tx)).To(BeFalse())
