@@ -9,13 +9,15 @@ interface TKN {
 
 contract Referral is ERC721, Ownable {
 
+    event MintedReferralTokens(uint amount, uint newSupply);
+
     uint constant private _MAX_REF_TOKENS_GIVEN = 5;
 
     uint public totalSupply;
     uint public referralIndex;
     uint public TKNBonus;
     uint private batch = 10;
-    uint public tokensMinted;
+    uint public mintedTokens;
 
     TKN tkn;
 
@@ -29,12 +31,13 @@ contract Referral is ERC721, Ownable {
     }
 
     function mintReferralTokens() external onlyOwner {
-        uint newMinted = tokensMinted + batch;
+        uint newMinted = mintedTokens + batch;
         require(newMinted <= totalSupply, "total supply exceeded");
-        for(uint i = tokensMinted; i < newMinted; i++) {
+        for(uint i = mintedTokens; i < newMinted; i++) {
             _mint(msg.sender, i);
         }
-        tokensMinted = newMinted;
+        mintedTokens = newMinted;
+        emit MintedReferralTokens(batch, mintedTokens);
     }
 
     function issueReferralToken(address _to, uint _count) external onlyOwner {
