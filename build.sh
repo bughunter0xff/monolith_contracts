@@ -17,6 +17,7 @@ contract_sources=(
   'controller'
   'tokenWhitelist'
   'walletDeployer'
+  'referral'
   'mocks/token'
   'mocks/burnerToken'
   'mocks/nonCompliantToken'
@@ -57,6 +58,7 @@ contracts=(
   "controller/Controller controller.go Controller bindings"
   "tokenWhitelist/TokenWhitelist tokenWhitelist.go TokenWhitelist bindings"
   "walletDeployer/WalletDeployer walletDeployer.go WalletDeployer bindings"
+  "referral/Referral referral.go Referral bindings"
   "mocks/token/Token mocks/token.go Token mocks"
   "mocks/burnerToken/BurnerToken mocks/burnerToken.go BurnerToken mocks"
   "mocks/nonCompliantToken/NonCompliantToken mocks/nonCompliantToken.go NonCompliantToken mocks"
