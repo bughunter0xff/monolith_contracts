@@ -11,6 +11,8 @@ contract Referral is ERC721, Ownable {
 
     event MintedReferralTokens(address _from, uint _amount, uint _newSupply);
     event IssuedReferralTokens(address _from, address _to, uint _amount);
+    event TrasferedReferalToken(address _from, address _to,uint _tokenID);
+    event TransferReferralBonus(address _from, address _to,uint _amount);
 
     uint constant private _MAX_REF_TOKENS_GIVEAWAY = 5;
 
@@ -42,7 +44,7 @@ contract Referral is ERC721, Ownable {
     }
 
     function issueReferralTokens(address _to, uint _amount) external onlyOwner {
-        //there is no overflow check because the maximum issuance is capped by _MAX_REF_TOKENS_GIVEN
+        //there is no overflow check because the maximum issuance per tx is capped by _MAX_REF_TOKENS_GIVEN
         require(_amount <= _MAX_REF_TOKENS_GIVEAWAY, "too many referral tokens given!");
         uint toBeIssued;
         if(_amount == 0) {
@@ -52,30 +54,32 @@ contract Referral is ERC721, Ownable {
             toBeIssued = _amount;
         }
         require(referralIndex + toBeIssued <= mintedTokens, "tokens exceed the current suppply!");
-        for(uint tokenid = referralIndex; tokenid < referralIndex + toBeIssued; tokenid++) {
-            _transferFrom(msg.sender, _to, tokenid);
-            firstOwner[tokenid] = _to;
+        for(uint tokenID = referralIndex; tokenID < referralIndex + toBeIssued; tokenID++) {
+            _transferFrom(msg.sender, _to, tokenID);
+            firstOwner[tokenID] = _to;
         }
         referralIndex += toBeIssued;
         emit IssuedReferralTokens(msg.sender, _to, toBeIssued);
     }
 
-    function transferReferralToken(address _to, uint _tokenid) external {
-        _transferFrom(msg.sender, _to, _tokenid);
+    function transferReferralToken(address _to, uint _tokenID) external {
+        _transferFrom(msg.sender, _to, _tokenID);
+        emit TrasferedReferalToken(msg.sender, _to, _tokenID);
     }
 
-    function transferBonus(uint[] calldata _referralTokens) external onlyOwner {
+    function transferReferralBonus(uint[] calldata _referralTokens) external onlyOwner {
         for (uint i = 0; i < _referralTokens.length; i++) {
             uint referralToken = _referralTokens[i];
             //do NOT  transfer bonus for previously activated cards
             if(!activated[referralToken]){
                 activated[referralToken] = true;
                 tkn.transfer(firstOwner[referralToken], TKNBonus);
+                emit TransferReferralBonus(msg.sender, firstOwner[referralToken], TKNBonus);
             }
         }
     }
 
-    function setBonus(uint newBonus) external onlyOwner{
+    function setReferralBonus(uint newBonus) external onlyOwner{
         TKNBonus = newBonus;
     }
 }
