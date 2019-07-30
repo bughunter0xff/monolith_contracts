@@ -31,7 +31,7 @@ var _ = Describe("Mint", func() {
             Expect(mt.String()).To(Equal(big.NewInt(50).String()))
         })
 
-        It("should amit a MintedReferralTokens event", func(){
+        It("should emit a MintedReferralTokens event", func(){
             it, err := Referral.FilterMintedReferralTokens(nil)
             Expect(err).ToNot(HaveOccurred())
             Expect(it.Next()).To(BeTrue())

@@ -12,12 +12,13 @@ contract Referral is ERC721, Ownable {
     event MintedReferralTokens(address _from, uint _amount, uint _newSupply);
     event IssuedReferralTokens(address _from, address _to, uint _amount);
     event TransferredReferralBonus(address _from, address _to, uint indexed _tokenId, uint _amount);
+    event SetBonus(address _from, uint _newBonus);
 
     uint constant private _MAX_REF_TOKENS_GIVEAWAY = 5;
 
     uint public totalSupply;
     uint public referralIndex;
-    uint public TKNBonus;
+    uint public TKNReferralBonus;
     uint public mintedTokens;
 
     TKN tkn;
@@ -25,10 +26,10 @@ contract Referral is ERC721, Ownable {
     mapping (uint => bool) public activated;
     mapping (uint => address) public firstOwner;
 
-    constructor(uint _totalSuply, address _TKNAddress) Ownable(msg.sender, false) public  {
+    constructor(uint _totalSuply, address _TKNAddress, uint _referralBonus) Ownable(msg.sender, false) public  {
         totalSupply = _totalSuply;
         tkn = TKN(_TKNAddress);
-        TKNBonus = 10;
+        TKNReferralBonus = _referralBonus;
     }
 
     function mintReferralTokens(uint _amount) external onlyOwner {
@@ -71,13 +72,14 @@ contract Referral is ERC721, Ownable {
             //do NOT  transfer bonus for previously activated cards
             if(!activated[referralToken]){
                 activated[referralToken] = true;
-                tkn.transfer(firstOwner[referralToken], TKNBonus);
-                emit TransferredReferralBonus(msg.sender, firstOwner[referralToken], referralToken, TKNBonus);
+                tkn.transfer(firstOwner[referralToken], TKNReferralBonus);
+                emit TransferredReferralBonus(msg.sender, firstOwner[referralToken], referralToken, TKNReferralBonus);
             }
         }
     }
 
     function setReferralBonus(uint newBonus) external onlyOwner{
-        TKNBonus = newBonus;
+        TKNReferralBonus = newBonus;
+        emit SetBonus(msg.sender, newBonus);
     }
 }

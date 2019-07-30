@@ -10,7 +10,7 @@ import (
 	"github.com/tokencard/ethertest"
 )
 
-var _ = Describe("Bonus", func() {
+var _ = Describe("Transfer Referral Bonus", func() {
 
 	When("5 tokens are issued", func() {
 
