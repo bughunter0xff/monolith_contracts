@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/tokencard/contracts/test/shared"
-    // "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/common"
 	"github.com/tokencard/ethertest"
 )
 
@@ -47,20 +47,23 @@ var _ = Describe("Bonus", func() {
                 Expect(isSuccessful(tx)).To(BeTrue())
             })
 
-            It("should emit 2 TrasferedReferalToken events", func(){
-                it, err := Referral.FilterTrasferedReferalToken(nil)
+            It("should emit 2 ERC721 Transfer events", func(){
+                from := []common.Address{RandomAccount.Address()}
+				to := []common.Address{}
+                tokenID := []*big.Int{big.NewInt(0), big.NewInt(1)}
+                it, err := Referral.FilterTransfer(nil, from, to, tokenID)
                 Expect(err).ToNot(HaveOccurred())
                 Expect(it.Next()).To(BeTrue())
                 evt := it.Event
                 Expect(it.Next()).To(BeTrue())
                 Expect(evt.From).To(Equal(RandomAccount.Address()))
                 Expect(evt.To).To(Equal(ReferralAccount1.Address()))
-                Expect(evt.TokenID.String()).To(Equal("0"))
+                Expect(evt.TokenId.String()).To(Equal("0"))
                 evt = it.Event
                 Expect(it.Next()).To(BeFalse())
                 Expect(evt.From).To(Equal(RandomAccount.Address()))
                 Expect(evt.To).To(Equal(ReferralAccount2.Address()))
-                Expect(evt.TokenID.String()).To(Equal("1"))
+                Expect(evt.TokenId.String()).To(Equal("1"))
             })
 
             When("the original owner tries to re-transfer the tokens", func() {
@@ -87,19 +90,22 @@ var _ = Describe("Bonus", func() {
                     Expect(isSuccessful(tx)).To(BeTrue())
                 })
 
-                It("should emit 2 TransferReferralBonus events", func(){
-                    it, err := Referral.FilterTransferReferralBonus(nil)
+                It("should emit 2 TransferredReferralBonus events", func(){
+                    tokenID := []*big.Int{}
+                    it, err := Referral.FilterTransferredReferralBonus(nil, tokenID)
                     Expect(err).ToNot(HaveOccurred())
                     Expect(it.Next()).To(BeTrue())
                     evt := it.Event
                     Expect(it.Next()).To(BeTrue())
                     Expect(evt.From).To(Equal(Owner.Address()))
                     Expect(evt.To).To(Equal(RandomAccount.Address()))
+                    Expect(evt.TokenId.String()).To(Equal("0"))
                     Expect(evt.Amount.String()).To(Equal("10"))
                     evt = it.Event
                     Expect(it.Next()).To(BeFalse())
                     Expect(evt.From).To(Equal(Owner.Address()))
                     Expect(evt.To).To(Equal(RandomAccount.Address()))
+                    Expect(evt.TokenId.String()).To(Equal("1"))
                     Expect(evt.Amount.String()).To(Equal("10"))
                 })
 
@@ -138,7 +144,8 @@ var _ = Describe("Bonus", func() {
     				})
 
                     It("should NOT emit any new TransferReferralBonus event", func(){
-                        it, err := Referral.FilterTransferReferralBonus(nil)
+                        tokenID := []*big.Int{}
+                        it, err := Referral.FilterTransferredReferralBonus(nil, tokenID)
                         Expect(err).ToNot(HaveOccurred())
                         Expect(it.Next()).To(BeTrue())
                         Expect(it.Next()).To(BeTrue())

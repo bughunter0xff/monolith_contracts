@@ -11,8 +11,7 @@ contract Referral is ERC721, Ownable {
 
     event MintedReferralTokens(address _from, uint _amount, uint _newSupply);
     event IssuedReferralTokens(address _from, address _to, uint _amount);
-    event TrasferedReferalToken(address _from, address _to,uint _tokenID);
-    event TransferReferralBonus(address _from, address _to,uint _amount);
+    event TransferredReferralBonus(address _from, address _to, uint indexed _tokenId, uint _amount);
 
     uint constant private _MAX_REF_TOKENS_GIVEAWAY = 5;
 
@@ -54,17 +53,16 @@ contract Referral is ERC721, Ownable {
             toBeIssued = _amount;
         }
         require(referralIndex + toBeIssued <= mintedTokens, "tokens exceed the current suppply!");
-        for(uint tokenID = referralIndex; tokenID < referralIndex + toBeIssued; tokenID++) {
-            _transferFrom(msg.sender, _to, tokenID);
-            firstOwner[tokenID] = _to;
+        for(uint tokenId = referralIndex; tokenId < referralIndex + toBeIssued; tokenId++) {
+            _transferFrom(msg.sender, _to, tokenId);
+            firstOwner[tokenId] = _to;
         }
         referralIndex += toBeIssued;
         emit IssuedReferralTokens(msg.sender, _to, toBeIssued);
     }
 
-    function transferReferralToken(address _to, uint _tokenID) external {
-        _transferFrom(msg.sender, _to, _tokenID);
-        emit TrasferedReferalToken(msg.sender, _to, _tokenID);
+    function transferReferralToken(address _to, uint _tokenId) external {
+        _transferFrom(msg.sender, _to, _tokenId);
     }
 
     function transferReferralBonus(uint[] calldata _referralTokens) external onlyOwner {
@@ -74,7 +72,7 @@ contract Referral is ERC721, Ownable {
             if(!activated[referralToken]){
                 activated[referralToken] = true;
                 tkn.transfer(firstOwner[referralToken], TKNBonus);
-                emit TransferReferralBonus(msg.sender, firstOwner[referralToken], TKNBonus);
+                emit TransferredReferralBonus(msg.sender, firstOwner[referralToken], referralToken, TKNBonus);
             }
         }
     }
