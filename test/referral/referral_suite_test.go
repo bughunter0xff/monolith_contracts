@@ -34,7 +34,7 @@ var _ = BeforeEach(func() {
 	Expect(err).ToNot(HaveOccurred())
 
     var tx *types.Transaction
-	ReferralAddress, tx, Referral, err = bindings.DeployReferral(Owner.TransactOpts(), Backend, big.NewInt(500), TKNAddress)
+	ReferralAddress, tx, Referral, err = bindings.DeployReferral(Owner.TransactOpts(), Backend, big.NewInt(60), TKNAddress)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
