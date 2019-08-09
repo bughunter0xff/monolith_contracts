@@ -2,11 +2,13 @@
 
 set -e -o pipefail
 
-SOLC="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.5.10 --optimize /=/"
+SOLC_LATEST="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.5.10 --optimize /=/"
+SOLC_0_4_19="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.19 --optimize /=/"
+SOLC_0_4_25="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.25 --optimize /=/"
 
 compile_solidity() {
-  echo "compiling ${1}"
-  ${SOLC} --overwrite --bin --abi ${1}.sol -o /solidity/build/${1} --combined-json bin-runtime,srcmap-runtime,ast,srcmap,bin
+  echo "compiling ${2}"
+  ${1} --overwrite --bin --abi ${2}.sol -o /solidity/build/${2} --combined-json bin-runtime,srcmap-runtime,ast,srcmap,bin
 }
 
 contract_sources=(
@@ -31,9 +33,27 @@ contract_sources=(
   'externals/ens/ENSRegistry'
 )
 
+makerDAO_sources=(
+    'mocks/makerDAO/SaiProxyCreateAndExecute'
+    'mocks/makerDAO/ProxyRegistry'
+    'mocks/makerDAO/Dai'
+    'mocks/makerDAO/PETH'
+    'mocks/makerDAO/WETH'
+)
+
 for c in "${contract_sources[@]}"
 do
-    compile_solidity $c
+    compile_solidity "${SOLC_LATEST}" $c
+done
+
+for c in "${makerDAO_sources[@]:0:2}"
+do
+    compile_solidity "$SOLC_0_4_25" $c
+done
+
+for c in "${makerDAO_sources[@]:2}"
+do
+    compile_solidity "$SOLC_0_4_19" $c
 done
 
 GE_PATH=${PWD}/vendor/github.com/ethereum/go-ethereum
@@ -74,7 +94,22 @@ contracts=(
 
 )
 
+makerDAO_contracts=(
+    "mocks/makerDAO/SaiProxyCreateAndExecute/SaiProxyCreateAndExecute mocks/makerDAO/SaiProxyCreateAndExecute.go SaiProxyCreateAndExecute makerDAO"
+    "mocks/makerDAO/ProxyRegistry/ProxyRegistry mocks/makerDAO/ProxyRegistry.go ProxyRegistry makerDAO"
+    "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
+    "mocks/makerDAO/Dai/Dai mocks/makerDAO/Dai.go Dai makerDAO"
+    "mocks/makerDAO/WETH/WETH mocks/makerDAO/WETH.go WETH makerDAO"
+    "mocks/makerDAO/PETH/PETH mocks/makerDAO/PETH.go PETH makerDAO"
+
+)
+
 for c in "${contracts[@]}"
+do
+    generate_binding "$c"
+done
+
+for c in "${makerDAO_contracts[@]}"
 do
     generate_binding "$c"
 done
