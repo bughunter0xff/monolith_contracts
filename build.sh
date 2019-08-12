@@ -36,6 +36,7 @@ contract_sources=(
 makerDAO_sources=(
     'mocks/makerDAO/SaiProxyCreateAndExecute'
     'mocks/makerDAO/ProxyRegistry'
+    'mocks/makerDAO/SaiTub'
     'mocks/makerDAO/Dai'
     'mocks/makerDAO/PETH'
     'mocks/makerDAO/WETH'
@@ -98,10 +99,11 @@ makerDAO_contracts=(
     "mocks/makerDAO/SaiProxyCreateAndExecute/SaiProxyCreateAndExecute mocks/makerDAO/SaiProxyCreateAndExecute.go SaiProxyCreateAndExecute makerDAO"
     "mocks/makerDAO/ProxyRegistry/ProxyRegistry mocks/makerDAO/ProxyRegistry.go ProxyRegistry makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
+    "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
     "mocks/makerDAO/Dai/Dai mocks/makerDAO/Dai.go Dai makerDAO"
+    "mocks/makerDAO/SaiTub/SaiTub mocks/makerDAO/SaiTub.go SaiTub makerDAO"
     "mocks/makerDAO/WETH/WETH mocks/makerDAO/WETH.go WETH makerDAO"
     "mocks/makerDAO/PETH/PETH mocks/makerDAO/PETH.go PETH makerDAO"
-
 )
 
 for c in "${contracts[@]}"
