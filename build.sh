@@ -3,8 +3,10 @@
 set -e -o pipefail
 
 SOLC_LATEST="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.5.10 --optimize /=/"
-SOLC_0_4_19="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.19 --optimize /=/"
 SOLC_0_4_25="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.25 --optimize /=/"
+SOLC_0_4_19="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.19 --optimize /=/"
+SOLC_0_4_10="docker run --rm -u `id -u` -v $PWD:/solidity --workdir /solidity/contracts ethereum/solc:0.4.11 --optimize /=/"
+
 
 compile_solidity() {
   echo "compiling ${2}"
@@ -36,7 +38,10 @@ contract_sources=(
 makerDAO_sources=(
     'mocks/makerDAO/SaiProxyCreateAndExecute'
     'mocks/makerDAO/ProxyRegistry'
+    'mocks/makerDAO/Medianizer'
     'mocks/makerDAO/SaiTub'
+    'mocks/makerDAO/MedianizerNew'
+    'mocks/makerDAO/MKR'
     'mocks/makerDAO/Dai'
     'mocks/makerDAO/PETH'
     'mocks/makerDAO/WETH'
@@ -52,7 +57,12 @@ do
     compile_solidity "$SOLC_0_4_25" $c
 done
 
-for c in "${makerDAO_sources[@]:2}"
+for c in "${makerDAO_sources[2]}"
+do
+    compile_solidity "$SOLC_0_4_10" $c 1>/dev/null 
+done
+
+for c in "${makerDAO_sources[@]:3}"
 do
     compile_solidity "$SOLC_0_4_19" $c
 done
@@ -101,6 +111,9 @@ makerDAO_contracts=(
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
     "mocks/makerDAO/Dai/Dai mocks/makerDAO/Dai.go Dai makerDAO"
+    "mocks/makerDAO/MKR/MKR mocks/makerDAO/MKR.go MKR makerDAO"
+    "mocks/makerDAO/Medianizer/Medianizer mocks/makerDAO/Medianizer.go Medianizer makerDAO"
+    "mocks/makerDAO/MedianizerNew/Medianizer mocks/makerDAO/MedianizerNew.go MedianizerNew makerDAO"
     "mocks/makerDAO/SaiTub/SaiTub mocks/makerDAO/SaiTub.go SaiTub makerDAO"
     "mocks/makerDAO/WETH/WETH mocks/makerDAO/WETH.go WETH makerDAO"
     "mocks/makerDAO/PETH/PETH mocks/makerDAO/PETH.go PETH makerDAO"
