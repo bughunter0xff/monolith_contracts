@@ -40,7 +40,6 @@ makerDAO_sources=(
     'mocks/makerDAO/ProxyRegistry'
     'mocks/makerDAO/Medianizer'
     'mocks/makerDAO/SaiTub'
-    'mocks/makerDAO/SaiVox'
     'mocks/makerDAO/MedianizerNew'
     'mocks/makerDAO/MKR'
     'mocks/makerDAO/Dai'
@@ -111,12 +110,12 @@ makerDAO_contracts=(
     "mocks/makerDAO/ProxyRegistry/ProxyRegistry mocks/makerDAO/ProxyRegistry.go ProxyRegistry makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
-    "mocks/makerDAO/SaiVox/SaiVox mocks/makerDAO/SaiVox.go SaiVox makerDAO"
     "mocks/makerDAO/Dai/Dai mocks/makerDAO/Dai.go Dai makerDAO"
     "mocks/makerDAO/MKR/MKR mocks/makerDAO/MKR.go MKR makerDAO"
     "mocks/makerDAO/Medianizer/Medianizer mocks/makerDAO/Medianizer.go Medianizer makerDAO"
     "mocks/makerDAO/MedianizerNew/Medianizer mocks/makerDAO/MedianizerNew.go MedianizerNew makerDAO"
     "mocks/makerDAO/SaiTub/SaiTub mocks/makerDAO/SaiTub.go SaiTub makerDAO"
+    "mocks/makerDAO/SaiTub/SaiVox mocks/makerDAO/SaiVox.go SaiVox makerDAO"
     "mocks/makerDAO/WETH/WETH mocks/makerDAO/WETH.go WETH makerDAO"
     "mocks/makerDAO/PETH/PETH mocks/makerDAO/PETH.go PETH makerDAO"
 )
