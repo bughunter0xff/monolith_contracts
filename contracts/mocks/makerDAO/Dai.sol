@@ -438,3 +438,9 @@ contract Dai is DSTokenBase(0), DSStop {
         name = name_;
     }
 }
+
+contract GemPit {
+    function burn(Dai gem) public {
+        gem.burn(gem.balanceOf(this));
+    }
+}

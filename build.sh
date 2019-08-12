@@ -40,6 +40,7 @@ makerDAO_sources=(
     'mocks/makerDAO/ProxyRegistry'
     'mocks/makerDAO/Medianizer'
     'mocks/makerDAO/SaiTub'
+    'mocks/makerDAO/SaiVox'
     'mocks/makerDAO/MedianizerNew'
     'mocks/makerDAO/MKR'
     'mocks/makerDAO/Dai'
@@ -59,7 +60,7 @@ done
 
 for c in "${makerDAO_sources[2]}"
 do
-    compile_solidity "$SOLC_0_4_10" $c 1>/dev/null 
+    compile_solidity "$SOLC_0_4_10" $c 1>/dev/null
 done
 
 for c in "${makerDAO_sources[@]:3}"
@@ -110,6 +111,7 @@ makerDAO_contracts=(
     "mocks/makerDAO/ProxyRegistry/ProxyRegistry mocks/makerDAO/ProxyRegistry.go ProxyRegistry makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
     "mocks/makerDAO/ProxyRegistry/DSProxyFactory mocks/makerDAO/DSProxyFactory.go DSProxyFactory makerDAO"
+    "mocks/makerDAO/SaiVox/SaiVox mocks/makerDAO/SaiVox.go SaiVox makerDAO"
     "mocks/makerDAO/Dai/Dai mocks/makerDAO/Dai.go Dai makerDAO"
     "mocks/makerDAO/MKR/MKR mocks/makerDAO/MKR.go MKR makerDAO"
     "mocks/makerDAO/Medianizer/Medianizer mocks/makerDAO/Medianizer.go Medianizer makerDAO"
