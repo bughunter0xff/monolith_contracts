@@ -45,6 +45,7 @@ makerDAO_sources=(
     'mocks/makerDAO/Dai'
     'mocks/makerDAO/PETH'
     'mocks/makerDAO/WETH'
+    'mocks/makerDAO/DSGuard'
 )
 
 for c in "${contract_sources[@]}"
@@ -118,6 +119,7 @@ makerDAO_contracts=(
     "mocks/makerDAO/SaiTub/SaiVox mocks/makerDAO/SaiVox.go SaiVox makerDAO"
     "mocks/makerDAO/WETH/WETH mocks/makerDAO/WETH.go WETH makerDAO"
     "mocks/makerDAO/PETH/PETH mocks/makerDAO/PETH.go PETH makerDAO"
+    "mocks/makerDAO/DSGuard/DSGuard mocks/makerDAO/DSGuard.go DSGuard makerDAO"
 )
 
 for c in "${contracts[@]}"

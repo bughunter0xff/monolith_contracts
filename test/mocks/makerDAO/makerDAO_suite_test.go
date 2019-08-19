@@ -3,6 +3,7 @@ package makerDAO_test
 import (
 	"context"
 	"os"
+    "fmt"
 	"testing"
     "math/big"
 	"github.com/ethereum/go-ethereum/common"
@@ -52,9 +53,17 @@ var PepAddress common.Address
 var GemPit *makerDAO.Dai
 var GemPitAddress common.Address
 
+var DSGuard *makerDAO.DSGuard
+var DSGuardAddress common.Address
+
 func init() {
 	TestRig.AddCoverageForContracts(
 		"../../../build/mocks/makerDAO/SaiProxyCreateAndExecute/combined.json",
+		"../../../contracts",
+	)
+
+    TestRig.AddCoverageForContracts(
+		"../../../build/mocks/makerDAO/SaiTub/combined.json",
 		"../../../contracts",
 	)
 }
@@ -81,6 +90,11 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     ProxyRegistryAddress, tx, ProxyRegistry, err = makerDAO.DeployProxyRegistry(BankAccount.TransactOpts(), Backend, DSProxyFactoryAddress)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    DSGuardAddress, tx, DSGuard, err = makerDAO.DeployDSGuard(BankAccount.TransactOpts(), Backend)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -139,6 +153,12 @@ var _ = BeforeEach(func() {
 })
 
 var _ = AfterEach(func() {
+    td := CurrentGinkgoTestDescription()
+
+	if td.Failed {
+		fmt.Fprintf(GinkgoWriter, "\nLast Executed Smart Contract Line for %s:%d\n", td.FileName, td.LineNumber)
+		fmt.Fprintln(GinkgoWriter, TestRig.LastExecuted())
+	}
 	err := Backend.Close()
 	Expect(err).ToNot(HaveOccurred())
 
