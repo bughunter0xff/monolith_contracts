@@ -31,7 +31,7 @@ var (
 const DSGuardABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"forbid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"bytes32\"},{\"name\":\"dst\",\"type\":\"bytes32\"},{\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"forbid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ANY\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src_\",\"type\":\"address\"},{\"name\":\"dst_\",\"type\":\"address\"},{\"name\":\"sig\",\"type\":\"bytes4\"}],\"name\":\"canCall\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"permit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"bytes32\"},{\"name\":\"dst\",\"type\":\"bytes32\"},{\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"permit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"dst\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"LogPermit\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"dst\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"sig\",\"type\":\"bytes32\"}],\"name\":\"LogForbid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
 
 // DSGuardBin is the compiled bytecode used for deploying new contracts.
-const DSGuardBin = `6060604090815260018054600160a060020a03191633600160a060020a0316908117909155907fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94905160405180910390a26107b98061005f6000396000f3006060604052600436106100a35763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166313af403581146100a85780632bc3217d146100c957806379d88d87146100f15780637a9e5e4b1461010d5780638da5cb5b1461012c578063a8542f661461015b578063b700961314610180578063bf7e214f146101c6578063cbeea68c146101d9578063f0217ce514610201575b600080fd5b34156100b357600080fd5b6100c7600160a060020a036004351661021d565b005b34156100d457600080fd5b6100c7600160a060020a036004358116906024351660443561029c565b34156100fc57600080fd5b6100c76004356024356044356102b8565b341561011857600080fd5b6100c7600160a060020a036004351661033a565b341561013757600080fd5b61013f6103b9565b604051600160a060020a03909116815260200160405180910390f35b341561016657600080fd5b61016e6103c8565b60405190815260200160405180910390f35b341561018b57600080fd5b6101b2600160a060020a0360043581169060243516600160e060020a0319604435166103ce565b604051901515815260200160405180910390f35b34156101d157600080fd5b61013f6105d5565b34156101e457600080fd5b6100c7600160a060020a03600435811690602435166044356105e4565b341561020c57600080fd5b6100c76004356024356044356105f7565b61023333600035600160e060020a03191661067c565b151561023e57600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a250565b6102b3600160a060020a03808516908416836102b8565b505050565b6102ce33600035600160e060020a03191661067c565b15156102d957600080fd5b6000838152600260209081526040808320858452825280832084845290915290819020805460ff191690558190839085907f95ba64c95d85e67ac83a0476c4a62ac2cf8ab2d0407545b8c9d79c3eefa62829905160405180910390a4505050565b61035033600035600160e060020a03191661067c565b151561035b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a250565b600154600160a060020a031681565b60001981565b600160a060020a038084166000818152600260209081526040808320948716808452948252808320600160e060020a03198716845290915281205490929060ff168061043d575060008281526002602090815260408083208484528252808320600019845290915290205460ff165b806104755750600082815260026020908152604080832060001984528252808320600160e060020a03198816845290915290205460ff165b806104a0575060008281526002602090815260408083206000198452825280832090915290205460ff165b806104ed575060008181527f38b5b2ceac7637132d27514ffcf440b705287635075af7b8bd5adcaa6a4cc5bb60209081526040808320600160e060020a03198816845290915290205460ff165b80610532575060008181527f38b5b2ceac7637132d27514ffcf440b705287635075af7b8bd5adcaa6a4cc5bb60209081526040808320600019845290915290205460ff165b806105755750600160e060020a0319841660009081527f47fa60fbc027ac3984ea309688a33182f4193c478b40ba8d294eb2cd3ddc4d97602052604090205460ff165b806105cb57506000196000527f47fa60fbc027ac3984ea309688a33182f4193c478b40ba8d294eb2cd3ddc4d976020527ff423d1317b37667cd26005728bffa7c8b0499e133951fcf8e814d4fc5f4c98f65460ff165b9695505050505050565b600054600160a060020a031681565b6102b3600160a060020a03808516908416835b61060d33600035600160e060020a03191661067c565b151561061857600080fd5b6000838152600260209081526040808320858452825280832084845290915290819020805460ff191660011790558190839085907f6f50375045128971c5469d343039ba7b8e30a5b190453737b28bda6f7a306771905160405180910390a4505050565b600030600160a060020a031683600160a060020a031614156106a057506001610787565b600154600160a060020a03848116911614156106be57506001610787565b600054600160a060020a031615156106d857506000610787565b60008054600160a060020a03169063b700961390859030908690604051602001526040517c010000000000000000000000000000000000000000000000000000000063ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b151561076a57600080fd5b6102c65a03f1151561077b57600080fd5b50505060405180519150505b929150505600a165627a7a72305820ced89fd7fadac3974d383c0d3fcef1aff9a47bd4e51dc92e06cd673dd2a87a5b0029`
+var DSGuardBin = "0x6060604090815260018054600160a060020a03191633600160a060020a0316908117909155907fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94905160405180910390a26107b98061005f6000396000f3006060604052600436106100a35763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166313af403581146100a85780632bc3217d146100c957806379d88d87146100f15780637a9e5e4b1461010d5780638da5cb5b1461012c578063a8542f661461015b578063b700961314610180578063bf7e214f146101c6578063cbeea68c146101d9578063f0217ce514610201575b600080fd5b34156100b357600080fd5b6100c7600160a060020a036004351661021d565b005b34156100d457600080fd5b6100c7600160a060020a036004358116906024351660443561029c565b34156100fc57600080fd5b6100c76004356024356044356102b8565b341561011857600080fd5b6100c7600160a060020a036004351661033a565b341561013757600080fd5b61013f6103b9565b604051600160a060020a03909116815260200160405180910390f35b341561016657600080fd5b61016e6103c8565b60405190815260200160405180910390f35b341561018b57600080fd5b6101b2600160a060020a0360043581169060243516600160e060020a0319604435166103ce565b604051901515815260200160405180910390f35b34156101d157600080fd5b61013f6105d5565b34156101e457600080fd5b6100c7600160a060020a03600435811690602435166044356105e4565b341561020c57600080fd5b6100c76004356024356044356105f7565b61023333600035600160e060020a03191661067c565b151561023e57600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a250565b6102b3600160a060020a03808516908416836102b8565b505050565b6102ce33600035600160e060020a03191661067c565b15156102d957600080fd5b6000838152600260209081526040808320858452825280832084845290915290819020805460ff191690558190839085907f95ba64c95d85e67ac83a0476c4a62ac2cf8ab2d0407545b8c9d79c3eefa62829905160405180910390a4505050565b61035033600035600160e060020a03191661067c565b151561035b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a250565b600154600160a060020a031681565b60001981565b600160a060020a038084166000818152600260209081526040808320948716808452948252808320600160e060020a03198716845290915281205490929060ff168061043d575060008281526002602090815260408083208484528252808320600019845290915290205460ff165b806104755750600082815260026020908152604080832060001984528252808320600160e060020a03198816845290915290205460ff165b806104a0575060008281526002602090815260408083206000198452825280832090915290205460ff165b806104ed575060008181527f38b5b2ceac7637132d27514ffcf440b705287635075af7b8bd5adcaa6a4cc5bb60209081526040808320600160e060020a03198816845290915290205460ff165b80610532575060008181527f38b5b2ceac7637132d27514ffcf440b705287635075af7b8bd5adcaa6a4cc5bb60209081526040808320600019845290915290205460ff165b806105755750600160e060020a0319841660009081527f47fa60fbc027ac3984ea309688a33182f4193c478b40ba8d294eb2cd3ddc4d97602052604090205460ff165b806105cb57506000196000527f47fa60fbc027ac3984ea309688a33182f4193c478b40ba8d294eb2cd3ddc4d976020527ff423d1317b37667cd26005728bffa7c8b0499e133951fcf8e814d4fc5f4c98f65460ff165b9695505050505050565b600054600160a060020a031681565b6102b3600160a060020a03808516908416835b61060d33600035600160e060020a03191661067c565b151561061857600080fd5b6000838152600260209081526040808320858452825280832084845290915290819020805460ff191660011790558190839085907f6f50375045128971c5469d343039ba7b8e30a5b190453737b28bda6f7a306771905160405180910390a4505050565b600030600160a060020a031683600160a060020a031614156106a057506001610787565b600154600160a060020a03848116911614156106be57506001610787565b600054600160a060020a031615156106d857506000610787565b60008054600160a060020a03169063b700961390859030908690604051602001526040517c010000000000000000000000000000000000000000000000000000000063ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b151561076a57600080fd5b6102c65a03f1151561077b57600080fd5b50505060405180519150505b929150505600a165627a7a72305820ced89fd7fadac3974d383c0d3fcef1aff9a47bd4e51dc92e06cd673dd2a87a5b0029"
 
 // DeployDSGuard deploys a new Ethereum contract, binding an instance of DSGuard to it.
 func DeployDSGuard(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *DSGuard, error) {
@@ -39,6 +39,7 @@ func DeployDSGuard(auth *bind.TransactOpts, backend bind.ContractBackend) (commo
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
+
 	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(DSGuardBin), backend)
 	if err != nil {
 		return common.Address{}, nil, nil, err
@@ -292,46 +293,88 @@ func (_DSGuard *DSGuardCallerSession) Owner() (common.Address, error) {
 	return _DSGuard.Contract.Owner(&_DSGuard.CallOpts)
 }
 
-// Forbid is a paid mutator transaction binding the contract method 0x79d88d87.
+// Forbid is a paid mutator transaction binding the contract method 0x2bc3217d.
 //
-// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardTransactor) Forbid(opts *bind.TransactOpts, src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+// Solidity: function forbid(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactor) Forbid(opts *bind.TransactOpts, src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
 	return _DSGuard.contract.Transact(opts, "forbid", src, dst, sig)
 }
 
-// Forbid is a paid mutator transaction binding the contract method 0x79d88d87.
+// Forbid is a paid mutator transaction binding the contract method 0x2bc3217d.
 //
-// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardSession) Forbid(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+// Solidity: function forbid(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardSession) Forbid(src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
 	return _DSGuard.Contract.Forbid(&_DSGuard.TransactOpts, src, dst, sig)
 }
 
-// Forbid is a paid mutator transaction binding the contract method 0x79d88d87.
+// Forbid is a paid mutator transaction binding the contract method 0x2bc3217d.
 //
-// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardTransactorSession) Forbid(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+// Solidity: function forbid(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactorSession) Forbid(src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
 	return _DSGuard.Contract.Forbid(&_DSGuard.TransactOpts, src, dst, sig)
 }
 
-// Permit is a paid mutator transaction binding the contract method 0xf0217ce5.
+// Forbid0 is a paid mutator transaction binding the contract method 0x79d88d87.
 //
-// Solidity: function permit(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardTransactor) Permit(opts *bind.TransactOpts, src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactor) Forbid0(opts *bind.TransactOpts, src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.contract.Transact(opts, "forbid0", src, dst, sig)
+}
+
+// Forbid0 is a paid mutator transaction binding the contract method 0x79d88d87.
+//
+// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardSession) Forbid0(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.Contract.Forbid0(&_DSGuard.TransactOpts, src, dst, sig)
+}
+
+// Forbid0 is a paid mutator transaction binding the contract method 0x79d88d87.
+//
+// Solidity: function forbid(bytes32 src, bytes32 dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactorSession) Forbid0(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.Contract.Forbid0(&_DSGuard.TransactOpts, src, dst, sig)
+}
+
+// Permit is a paid mutator transaction binding the contract method 0xcbeea68c.
+//
+// Solidity: function permit(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactor) Permit(opts *bind.TransactOpts, src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
 	return _DSGuard.contract.Transact(opts, "permit", src, dst, sig)
 }
 
-// Permit is a paid mutator transaction binding the contract method 0xf0217ce5.
+// Permit is a paid mutator transaction binding the contract method 0xcbeea68c.
 //
-// Solidity: function permit(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardSession) Permit(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+// Solidity: function permit(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardSession) Permit(src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
 	return _DSGuard.Contract.Permit(&_DSGuard.TransactOpts, src, dst, sig)
 }
 
-// Permit is a paid mutator transaction binding the contract method 0xf0217ce5.
+// Permit is a paid mutator transaction binding the contract method 0xcbeea68c.
+//
+// Solidity: function permit(address src, address dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactorSession) Permit(src common.Address, dst common.Address, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.Contract.Permit(&_DSGuard.TransactOpts, src, dst, sig)
+}
+
+// Permit0 is a paid mutator transaction binding the contract method 0xf0217ce5.
 //
 // Solidity: function permit(bytes32 src, bytes32 dst, bytes32 sig) returns()
-func (_DSGuard *DSGuardTransactorSession) Permit(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
-	return _DSGuard.Contract.Permit(&_DSGuard.TransactOpts, src, dst, sig)
+func (_DSGuard *DSGuardTransactor) Permit0(opts *bind.TransactOpts, src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.contract.Transact(opts, "permit0", src, dst, sig)
+}
+
+// Permit0 is a paid mutator transaction binding the contract method 0xf0217ce5.
+//
+// Solidity: function permit(bytes32 src, bytes32 dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardSession) Permit0(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.Contract.Permit0(&_DSGuard.TransactOpts, src, dst, sig)
+}
+
+// Permit0 is a paid mutator transaction binding the contract method 0xf0217ce5.
+//
+// Solidity: function permit(bytes32 src, bytes32 dst, bytes32 sig) returns()
+func (_DSGuard *DSGuardTransactorSession) Permit0(src [32]byte, dst [32]byte, sig [32]byte) (*types.Transaction, error) {
+	return _DSGuard.Contract.Permit0(&_DSGuard.TransactOpts, src, dst, sig)
 }
 
 // SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
@@ -526,6 +569,17 @@ func (_DSGuard *DSGuardFilterer) WatchLogForbid(opts *bind.WatchOpts, sink chan<
 	}), nil
 }
 
+// ParseLogForbid is a log parse operation binding the contract event 0x95ba64c95d85e67ac83a0476c4a62ac2cf8ab2d0407545b8c9d79c3eefa62829.
+//
+// Solidity: event LogForbid(bytes32 indexed src, bytes32 indexed dst, bytes32 indexed sig)
+func (_DSGuard *DSGuardFilterer) ParseLogForbid(log types.Log) (*DSGuardLogForbid, error) {
+	event := new(DSGuardLogForbid)
+	if err := _DSGuard.contract.UnpackLog(event, "LogForbid", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
 // DSGuardLogPermitIterator is returned from FilterLogPermit and is used to iterate over the raw logs and unpacked data for LogPermit events raised by the DSGuard contract.
 type DSGuardLogPermitIterator struct {
 	Event *DSGuardLogPermit // Event containing the contract specifics and raw log
@@ -676,6 +730,17 @@ func (_DSGuard *DSGuardFilterer) WatchLogPermit(opts *bind.WatchOpts, sink chan<
 	}), nil
 }
 
+// ParseLogPermit is a log parse operation binding the contract event 0x6f50375045128971c5469d343039ba7b8e30a5b190453737b28bda6f7a306771.
+//
+// Solidity: event LogPermit(bytes32 indexed src, bytes32 indexed dst, bytes32 indexed sig)
+func (_DSGuard *DSGuardFilterer) ParseLogPermit(log types.Log) (*DSGuardLogPermit, error) {
+	event := new(DSGuardLogPermit)
+	if err := _DSGuard.contract.UnpackLog(event, "LogPermit", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
 // DSGuardLogSetAuthorityIterator is returned from FilterLogSetAuthority and is used to iterate over the raw logs and unpacked data for LogSetAuthority events raised by the DSGuard contract.
 type DSGuardLogSetAuthorityIterator struct {
 	Event *DSGuardLogSetAuthority // Event containing the contract specifics and raw log
@@ -808,6 +873,17 @@ func (_DSGuard *DSGuardFilterer) WatchLogSetAuthority(opts *bind.WatchOpts, sink
 	}), nil
 }
 
+// ParseLogSetAuthority is a log parse operation binding the contract event 0x1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada4.
+//
+// Solidity: event LogSetAuthority(address indexed authority)
+func (_DSGuard *DSGuardFilterer) ParseLogSetAuthority(log types.Log) (*DSGuardLogSetAuthority, error) {
+	event := new(DSGuardLogSetAuthority)
+	if err := _DSGuard.contract.UnpackLog(event, "LogSetAuthority", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
 // DSGuardLogSetOwnerIterator is returned from FilterLogSetOwner and is used to iterate over the raw logs and unpacked data for LogSetOwner events raised by the DSGuard contract.
 type DSGuardLogSetOwnerIterator struct {
 	Event *DSGuardLogSetOwner // Event containing the contract specifics and raw log
@@ -938,4 +1014,15 @@ func (_DSGuard *DSGuardFilterer) WatchLogSetOwner(opts *bind.WatchOpts, sink cha
 			}
 		}
 	}), nil
+}
+
+// ParseLogSetOwner is a log parse operation binding the contract event 0xce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94.
+//
+// Solidity: event LogSetOwner(address indexed owner)
+func (_DSGuard *DSGuardFilterer) ParseLogSetOwner(log types.Log) (*DSGuardLogSetOwner, error) {
+	event := new(DSGuardLogSetOwner)
+	if err := _DSGuard.contract.UnpackLog(event, "LogSetOwner", log); err != nil {
+		return nil, err
+	}
+	return event, nil
 }

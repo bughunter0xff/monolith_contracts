@@ -31,7 +31,7 @@ var (
 const DaiABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"symbol_\",\"type\":\"bytes32\"}],\"name\":\"DSToken\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"mint\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"bytes32\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"mint\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"push\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"move\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"start\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"pull\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"Mint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"Burn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":true,\"inputs\":[{\"indexed\":true,\"name\":\"sig\",\"type\":\"bytes4\"},{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"foo\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"bar\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"fax\",\"type\":\"bytes\"}],\"name\":\"LogNote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"dst\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"}]"
 
 // DaiBin is the compiled bytecode used for deploying new contracts.
-const DaiBin = `60606040908152601260065560006007819055600160a060020a033316808252600160205282822082905590805560048054600160a060020a03191682179055907fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94905160405180910390a2610d598061007a6000396000f3006060604052600436106101535763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166306fdde03811461015857806307da68f51461017d578063095ea7b31461019257806313af4035146101c857806318160ddd146101e757806323b872dd146101fa5780632f0573d914610222578063313ce5671461023857806340c10f191461024b57806342966c681461026d5780635ac801fe1461028357806370a082311461029957806375f12b21146102b85780637a9e5e4b146102cb5780638da5cb5b146102ea57806395d89b41146103195780639dc29fac1461032c578063a0712d681461034e578063a9059cbb14610364578063b753a98c14610386578063bb35783b146103a8578063be9a6555146103d0578063bf7e214f146103e3578063daea85c5146103f6578063dd62ed3e14610415578063f2d5d56b1461043a575b600080fd5b341561016357600080fd5b61016b61045c565b60405190815260200160405180910390f35b341561018857600080fd5b610190610462565b005b341561019d57600080fd5b6101b4600160a060020a0360043516602435610501565b604051901515815260200160405180910390f35b34156101d357600080fd5b610190600160a060020a036004351661052e565b34156101f257600080fd5b61016b6105ad565b341561020557600080fd5b6101b4600160a060020a03600435811690602435166044356105b3565b341561022d57600080fd5b610190600435610728565b341561024357600080fd5b61016b61072d565b341561025657600080fd5b610190600160a060020a0360043516602435610733565b341561027857600080fd5b6101906004356107f9565b341561028e57600080fd5b610190600435610806565b34156102a457600080fd5b61016b600160a060020a036004351661082c565b34156102c357600080fd5b6101b4610847565b34156102d657600080fd5b610190600160a060020a0360043516610857565b34156102f557600080fd5b6102fd6108d6565b604051600160a060020a03909116815260200160405180910390f35b341561032457600080fd5b61016b6108e5565b341561033757600080fd5b610190600160a060020a03600435166024356108eb565b341561035957600080fd5b610190600435610a59565b341561036f57600080fd5b6101b4600160a060020a0360043516602435610a63565b341561039157600080fd5b610190600160a060020a0360043516602435610a70565b34156103b357600080fd5b610190600160a060020a0360043581169060243516604435610a80565b34156103db57600080fd5b610190610a91565b34156103ee57600080fd5b6102fd610b2a565b341561040157600080fd5b6101b4600160a060020a0360043516610b39565b341561042057600080fd5b61016b600160a060020a0360043581169060243516610b5f565b341561044557600080fd5b610190600160a060020a0360043516602435610b8a565b60075481565b61047833600035600160e060020a031916610b95565b151561048357600080fd5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a450506004805474ff0000000000000000000000000000000000000000191660a060020a179055565b60045460009060a060020a900460ff161561051b57600080fd5b6105258383610ca1565b90505b92915050565b61054433600035600160e060020a031916610b95565b151561054f57600080fd5b6004805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a250565b60005490565b60045460009060a060020a900460ff16156105cd57600080fd5b33600160a060020a031684600160a060020a0316141580156106175750600160a060020a038085166000908152600260209081526040808320339094168352929052205460001914155b1561067557600160a060020a038085166000908152600260209081526040808320339094168352929052205461064d9083610d0d565b600160a060020a03808616600090815260026020908152604080832033909416835292905220555b600160a060020a0384166000908152600160205260409020546106989083610d0d565b600160a060020a0380861660009081526001602052604080822093909355908516815220546106c79083610d1d565b600160a060020a03808516600081815260016020526040908190209390935591908616907fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef9085905190815260200160405180910390a35060019392505050565b600555565b60065481565b61074933600035600160e060020a031916610b95565b151561075457600080fd5b60045460a060020a900460ff161561076b57600080fd5b600160a060020a03821660009081526001602052604090205461078e9082610d1d565b600160a060020a038316600090815260016020526040812091909155546107b59082610d1d565b600055600160a060020a0382167f0f6798a560793a54c3bcfe86a93cde1e73087d944c0ea20544137d41213968858260405190815260200160405180910390a25050565b61080333826108eb565b50565b61081c33600035600160e060020a031916610b95565b151561082757600080fd5b600755565b600160a060020a031660009081526001602052604090205490565b60045460a060020a900460ff1681565b61086d33600035600160e060020a031916610b95565b151561087857600080fd5b6003805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a250565b600454600160a060020a031681565b60055481565b61090133600035600160e060020a031916610b95565b151561090c57600080fd5b60045460a060020a900460ff161561092357600080fd5b33600160a060020a031682600160a060020a03161415801561096d5750600160a060020a038083166000908152600260209081526040808320339094168352929052205460001914155b156109cb57600160a060020a03808316600090815260026020908152604080832033909416835292905220546109a39082610d0d565b600160a060020a03808416600090815260026020908152604080832033909416835292905220555b600160a060020a0382166000908152600160205260409020546109ee9082610d0d565b600160a060020a03831660009081526001602052604081209190915554610a159082610d0d565b600055600160a060020a0382167fcc16f5dbb4873280815c1ee09dbd06736cffcc184412cf7a71a0fdb75d397ca58260405190815260200160405180910390a25050565b6108033382610733565b60006105253384846105b3565b610a7b3383836105b3565b505050565b610a8b8383836105b3565b50505050565b610aa733600035600160e060020a031916610b95565b1515610ab257600080fd5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a450506004805474ff000000000000000000000000000000000000000019169055565b600354600160a060020a031681565b60045460009060a060020a900460ff1615610b5357600080fd5b61052882600019610ca1565b600160a060020a03918216600090815260026020908152604080832093909416825291909152205490565b610a7b8233836105b3565b600030600160a060020a031683600160a060020a03161415610bb957506001610528565b600454600160a060020a0384811691161415610bd757506001610528565b600354600160a060020a03161515610bf157506000610528565b600354600160a060020a031663b70096138430856000604051602001526040517c010000000000000000000000000000000000000000000000000000000063ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b1515610c7f57600080fd5b6102c65a03f11515610c9057600080fd5b505050604051805190509050610528565b600160a060020a03338116600081815260026020908152604080832094871680845294909152808220859055909291907f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9259085905190815260200160405180910390a350600192915050565b8082038281111561052857600080fd5b8082018281101561052857600080fd00a165627a7a7230582078d45dc3c2c8a0c6558fb53361bc4848bea24b64d923ad4ce5fa6d3f3cf659bf0029`
+var DaiBin = "0x60606040908152601260065560006007819055600160a060020a033316808252600160205282822082905590805560048054600160a060020a03191682179055907fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94905160405180910390a2610d598061007a6000396000f3006060604052600436106101535763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166306fdde03811461015857806307da68f51461017d578063095ea7b31461019257806313af4035146101c857806318160ddd146101e757806323b872dd146101fa5780632f0573d914610222578063313ce5671461023857806340c10f191461024b57806342966c681461026d5780635ac801fe1461028357806370a082311461029957806375f12b21146102b85780637a9e5e4b146102cb5780638da5cb5b146102ea57806395d89b41146103195780639dc29fac1461032c578063a0712d681461034e578063a9059cbb14610364578063b753a98c14610386578063bb35783b146103a8578063be9a6555146103d0578063bf7e214f146103e3578063daea85c5146103f6578063dd62ed3e14610415578063f2d5d56b1461043a575b600080fd5b341561016357600080fd5b61016b61045c565b60405190815260200160405180910390f35b341561018857600080fd5b610190610462565b005b341561019d57600080fd5b6101b4600160a060020a0360043516602435610501565b604051901515815260200160405180910390f35b34156101d357600080fd5b610190600160a060020a036004351661052e565b34156101f257600080fd5b61016b6105ad565b341561020557600080fd5b6101b4600160a060020a03600435811690602435166044356105b3565b341561022d57600080fd5b610190600435610728565b341561024357600080fd5b61016b61072d565b341561025657600080fd5b610190600160a060020a0360043516602435610733565b341561027857600080fd5b6101906004356107f9565b341561028e57600080fd5b610190600435610806565b34156102a457600080fd5b61016b600160a060020a036004351661082c565b34156102c357600080fd5b6101b4610847565b34156102d657600080fd5b610190600160a060020a0360043516610857565b34156102f557600080fd5b6102fd6108d6565b604051600160a060020a03909116815260200160405180910390f35b341561032457600080fd5b61016b6108e5565b341561033757600080fd5b610190600160a060020a03600435166024356108eb565b341561035957600080fd5b610190600435610a59565b341561036f57600080fd5b6101b4600160a060020a0360043516602435610a63565b341561039157600080fd5b610190600160a060020a0360043516602435610a70565b34156103b357600080fd5b610190600160a060020a0360043581169060243516604435610a80565b34156103db57600080fd5b610190610a91565b34156103ee57600080fd5b6102fd610b2a565b341561040157600080fd5b6101b4600160a060020a0360043516610b39565b341561042057600080fd5b61016b600160a060020a0360043581169060243516610b5f565b341561044557600080fd5b610190600160a060020a0360043516602435610b8a565b60075481565b61047833600035600160e060020a031916610b95565b151561048357600080fd5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a450506004805474ff0000000000000000000000000000000000000000191660a060020a179055565b60045460009060a060020a900460ff161561051b57600080fd5b6105258383610ca1565b90505b92915050565b61054433600035600160e060020a031916610b95565b151561054f57600080fd5b6004805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a250565b60005490565b60045460009060a060020a900460ff16156105cd57600080fd5b33600160a060020a031684600160a060020a0316141580156106175750600160a060020a038085166000908152600260209081526040808320339094168352929052205460001914155b1561067557600160a060020a038085166000908152600260209081526040808320339094168352929052205461064d9083610d0d565b600160a060020a03808616600090815260026020908152604080832033909416835292905220555b600160a060020a0384166000908152600160205260409020546106989083610d0d565b600160a060020a0380861660009081526001602052604080822093909355908516815220546106c79083610d1d565b600160a060020a03808516600081815260016020526040908190209390935591908616907fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef9085905190815260200160405180910390a35060019392505050565b600555565b60065481565b61074933600035600160e060020a031916610b95565b151561075457600080fd5b60045460a060020a900460ff161561076b57600080fd5b600160a060020a03821660009081526001602052604090205461078e9082610d1d565b600160a060020a038316600090815260016020526040812091909155546107b59082610d1d565b600055600160a060020a0382167f0f6798a560793a54c3bcfe86a93cde1e73087d944c0ea20544137d41213968858260405190815260200160405180910390a25050565b61080333826108eb565b50565b61081c33600035600160e060020a031916610b95565b151561082757600080fd5b600755565b600160a060020a031660009081526001602052604090205490565b60045460a060020a900460ff1681565b61086d33600035600160e060020a031916610b95565b151561087857600080fd5b6003805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a250565b600454600160a060020a031681565b60055481565b61090133600035600160e060020a031916610b95565b151561090c57600080fd5b60045460a060020a900460ff161561092357600080fd5b33600160a060020a031682600160a060020a03161415801561096d5750600160a060020a038083166000908152600260209081526040808320339094168352929052205460001914155b156109cb57600160a060020a03808316600090815260026020908152604080832033909416835292905220546109a39082610d0d565b600160a060020a03808416600090815260026020908152604080832033909416835292905220555b600160a060020a0382166000908152600160205260409020546109ee9082610d0d565b600160a060020a03831660009081526001602052604081209190915554610a159082610d0d565b600055600160a060020a0382167fcc16f5dbb4873280815c1ee09dbd06736cffcc184412cf7a71a0fdb75d397ca58260405190815260200160405180910390a25050565b6108033382610733565b60006105253384846105b3565b610a7b3383836105b3565b505050565b610a8b8383836105b3565b50505050565b610aa733600035600160e060020a031916610b95565b1515610ab257600080fd5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a450506004805474ff000000000000000000000000000000000000000019169055565b600354600160a060020a031681565b60045460009060a060020a900460ff1615610b5357600080fd5b61052882600019610ca1565b600160a060020a03918216600090815260026020908152604080832093909416825291909152205490565b610a7b8233836105b3565b600030600160a060020a031683600160a060020a03161415610bb957506001610528565b600454600160a060020a0384811691161415610bd757506001610528565b600354600160a060020a03161515610bf157506000610528565b600354600160a060020a031663b70096138430856000604051602001526040517c010000000000000000000000000000000000000000000000000000000063ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b1515610c7f57600080fd5b6102c65a03f11515610c9057600080fd5b505050604051805190509050610528565b600160a060020a03338116600081815260026020908152604080832094871680845294909152808220859055909291907f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9259085905190815260200160405180910390a350600192915050565b8082038281111561052857600080fd5b8082018281101561052857600080fd00a165627a7a7230582078d45dc3c2c8a0c6558fb53361bc4848bea24b64d923ad4ce5fa6d3f3cf659bf0029"
 
 // DeployDai deploys a new Ethereum contract, binding an instance of Dai to it.
 func DeployDai(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Dai, error) {
@@ -39,6 +39,7 @@ func DeployDai(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Ad
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
+
 	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(DaiBin), backend)
 	if err != nil {
 		return common.Address{}, nil, nil, err
@@ -443,67 +444,130 @@ func (_Dai *DaiTransactorSession) DSToken(symbol_ [32]byte) (*types.Transaction,
 	return _Dai.Contract.DSToken(&_Dai.TransactOpts, symbol_)
 }
 
-// Approve is a paid mutator transaction binding the contract method 0xdaea85c5.
+// Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
+//
+// Solidity: function approve(address guy, uint256 wad) returns(bool)
+func (_Dai *DaiTransactor) Approve(opts *bind.TransactOpts, guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "approve", guy, wad)
+}
+
+// Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
+//
+// Solidity: function approve(address guy, uint256 wad) returns(bool)
+func (_Dai *DaiSession) Approve(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Approve(&_Dai.TransactOpts, guy, wad)
+}
+
+// Approve is a paid mutator transaction binding the contract method 0x095ea7b3.
+//
+// Solidity: function approve(address guy, uint256 wad) returns(bool)
+func (_Dai *DaiTransactorSession) Approve(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Approve(&_Dai.TransactOpts, guy, wad)
+}
+
+// Approve0 is a paid mutator transaction binding the contract method 0xdaea85c5.
 //
 // Solidity: function approve(address guy) returns(bool)
-func (_Dai *DaiTransactor) Approve(opts *bind.TransactOpts, guy common.Address) (*types.Transaction, error) {
-	return _Dai.contract.Transact(opts, "approve", guy)
+func (_Dai *DaiTransactor) Approve0(opts *bind.TransactOpts, guy common.Address) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "approve0", guy)
 }
 
-// Approve is a paid mutator transaction binding the contract method 0xdaea85c5.
+// Approve0 is a paid mutator transaction binding the contract method 0xdaea85c5.
 //
 // Solidity: function approve(address guy) returns(bool)
-func (_Dai *DaiSession) Approve(guy common.Address) (*types.Transaction, error) {
-	return _Dai.Contract.Approve(&_Dai.TransactOpts, guy)
+func (_Dai *DaiSession) Approve0(guy common.Address) (*types.Transaction, error) {
+	return _Dai.Contract.Approve0(&_Dai.TransactOpts, guy)
 }
 
-// Approve is a paid mutator transaction binding the contract method 0xdaea85c5.
+// Approve0 is a paid mutator transaction binding the contract method 0xdaea85c5.
 //
 // Solidity: function approve(address guy) returns(bool)
-func (_Dai *DaiTransactorSession) Approve(guy common.Address) (*types.Transaction, error) {
-	return _Dai.Contract.Approve(&_Dai.TransactOpts, guy)
+func (_Dai *DaiTransactorSession) Approve0(guy common.Address) (*types.Transaction, error) {
+	return _Dai.Contract.Approve0(&_Dai.TransactOpts, guy)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
+//
+// Solidity: function burn(uint256 wad) returns()
+func (_Dai *DaiTransactor) Burn(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "burn", wad)
+}
+
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
+//
+// Solidity: function burn(uint256 wad) returns()
+func (_Dai *DaiSession) Burn(wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Burn(&_Dai.TransactOpts, wad)
+}
+
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
+//
+// Solidity: function burn(uint256 wad) returns()
+func (_Dai *DaiTransactorSession) Burn(wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Burn(&_Dai.TransactOpts, wad)
+}
+
+// Burn0 is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
 // Solidity: function burn(address guy, uint256 wad) returns()
-func (_Dai *DaiTransactor) Burn(opts *bind.TransactOpts, guy common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _Dai.contract.Transact(opts, "burn", guy, wad)
+func (_Dai *DaiTransactor) Burn0(opts *bind.TransactOpts, guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "burn0", guy, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
+// Burn0 is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
 // Solidity: function burn(address guy, uint256 wad) returns()
-func (_Dai *DaiSession) Burn(guy common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _Dai.Contract.Burn(&_Dai.TransactOpts, guy, wad)
+func (_Dai *DaiSession) Burn0(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Burn0(&_Dai.TransactOpts, guy, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
+// Burn0 is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
 // Solidity: function burn(address guy, uint256 wad) returns()
-func (_Dai *DaiTransactorSession) Burn(guy common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _Dai.Contract.Burn(&_Dai.TransactOpts, guy, wad)
+func (_Dai *DaiTransactorSession) Burn0(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Burn0(&_Dai.TransactOpts, guy, wad)
 }
 
-// Mint is a paid mutator transaction binding the contract method 0xa0712d68.
+// Mint is a paid mutator transaction binding the contract method 0x40c10f19.
 //
-// Solidity: function mint(uint256 wad) returns()
-func (_Dai *DaiTransactor) Mint(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
-	return _Dai.contract.Transact(opts, "mint", wad)
+// Solidity: function mint(address guy, uint256 wad) returns()
+func (_Dai *DaiTransactor) Mint(opts *bind.TransactOpts, guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "mint", guy, wad)
 }
 
-// Mint is a paid mutator transaction binding the contract method 0xa0712d68.
+// Mint is a paid mutator transaction binding the contract method 0x40c10f19.
 //
-// Solidity: function mint(uint256 wad) returns()
-func (_Dai *DaiSession) Mint(wad *big.Int) (*types.Transaction, error) {
-	return _Dai.Contract.Mint(&_Dai.TransactOpts, wad)
+// Solidity: function mint(address guy, uint256 wad) returns()
+func (_Dai *DaiSession) Mint(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Mint(&_Dai.TransactOpts, guy, wad)
 }
 
-// Mint is a paid mutator transaction binding the contract method 0xa0712d68.
+// Mint is a paid mutator transaction binding the contract method 0x40c10f19.
+//
+// Solidity: function mint(address guy, uint256 wad) returns()
+func (_Dai *DaiTransactorSession) Mint(guy common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Mint(&_Dai.TransactOpts, guy, wad)
+}
+
+// Mint0 is a paid mutator transaction binding the contract method 0xa0712d68.
 //
 // Solidity: function mint(uint256 wad) returns()
-func (_Dai *DaiTransactorSession) Mint(wad *big.Int) (*types.Transaction, error) {
-	return _Dai.Contract.Mint(&_Dai.TransactOpts, wad)
+func (_Dai *DaiTransactor) Mint0(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
+	return _Dai.contract.Transact(opts, "mint0", wad)
+}
+
+// Mint0 is a paid mutator transaction binding the contract method 0xa0712d68.
+//
+// Solidity: function mint(uint256 wad) returns()
+func (_Dai *DaiSession) Mint0(wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Mint0(&_Dai.TransactOpts, wad)
+}
+
+// Mint0 is a paid mutator transaction binding the contract method 0xa0712d68.
+//
+// Solidity: function mint(uint256 wad) returns()
+func (_Dai *DaiTransactorSession) Mint0(wad *big.Int) (*types.Transaction, error) {
+	return _Dai.Contract.Mint0(&_Dai.TransactOpts, wad)
 }
 
 // Move is a paid mutator transaction binding the contract method 0xbb35783b.
@@ -858,6 +922,17 @@ func (_Dai *DaiFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *DaiApp
 	}), nil
 }
 
+// ParseApproval is a log parse operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
+//
+// Solidity: event Approval(address indexed src, address indexed guy, uint256 wad)
+func (_Dai *DaiFilterer) ParseApproval(log types.Log) (*DaiApproval, error) {
+	event := new(DaiApproval)
+	if err := _Dai.contract.UnpackLog(event, "Approval", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
 // DaiBurnIterator is returned from FilterBurn and is used to iterate over the raw logs and unpacked data for Burn events raised by the Dai contract.
 type DaiBurnIterator struct {
 	Event *DaiBurn // Event containing the contract specifics and raw log
@@ -989,6 +1064,17 @@ func (_Dai *DaiFilterer) WatchBurn(opts *bind.WatchOpts, sink chan<- *DaiBurn, g
 			}
 		}
 	}), nil
+}
+
+// ParseBurn is a log parse operation binding the contract event 0xcc16f5dbb4873280815c1ee09dbd06736cffcc184412cf7a71a0fdb75d397ca5.
+//
+// Solidity: event Burn(address indexed guy, uint256 wad)
+func (_Dai *DaiFilterer) ParseBurn(log types.Log) (*DaiBurn, error) {
+	event := new(DaiBurn)
+	if err := _Dai.contract.UnpackLog(event, "Burn", log); err != nil {
+		return nil, err
+	}
+	return event, nil
 }
 
 // DaiLogSetAuthorityIterator is returned from FilterLogSetAuthority and is used to iterate over the raw logs and unpacked data for LogSetAuthority events raised by the Dai contract.
@@ -1123,6 +1209,17 @@ func (_Dai *DaiFilterer) WatchLogSetAuthority(opts *bind.WatchOpts, sink chan<- 
 	}), nil
 }
 
+// ParseLogSetAuthority is a log parse operation binding the contract event 0x1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada4.
+//
+// Solidity: event LogSetAuthority(address indexed authority)
+func (_Dai *DaiFilterer) ParseLogSetAuthority(log types.Log) (*DaiLogSetAuthority, error) {
+	event := new(DaiLogSetAuthority)
+	if err := _Dai.contract.UnpackLog(event, "LogSetAuthority", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
 // DaiLogSetOwnerIterator is returned from FilterLogSetOwner and is used to iterate over the raw logs and unpacked data for LogSetOwner events raised by the Dai contract.
 type DaiLogSetOwnerIterator struct {
 	Event *DaiLogSetOwner // Event containing the contract specifics and raw log
@@ -1253,6 +1350,17 @@ func (_Dai *DaiFilterer) WatchLogSetOwner(opts *bind.WatchOpts, sink chan<- *Dai
 			}
 		}
 	}), nil
+}
+
+// ParseLogSetOwner is a log parse operation binding the contract event 0xce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed94.
+//
+// Solidity: event LogSetOwner(address indexed owner)
+func (_Dai *DaiFilterer) ParseLogSetOwner(log types.Log) (*DaiLogSetOwner, error) {
+	event := new(DaiLogSetOwner)
+	if err := _Dai.contract.UnpackLog(event, "LogSetOwner", log); err != nil {
+		return nil, err
+	}
+	return event, nil
 }
 
 // DaiMintIterator is returned from FilterMint and is used to iterate over the raw logs and unpacked data for Mint events raised by the Dai contract.
@@ -1386,6 +1494,17 @@ func (_Dai *DaiFilterer) WatchMint(opts *bind.WatchOpts, sink chan<- *DaiMint, g
 			}
 		}
 	}), nil
+}
+
+// ParseMint is a log parse operation binding the contract event 0x0f6798a560793a54c3bcfe86a93cde1e73087d944c0ea20544137d4121396885.
+//
+// Solidity: event Mint(address indexed guy, uint256 wad)
+func (_Dai *DaiFilterer) ParseMint(log types.Log) (*DaiMint, error) {
+	event := new(DaiMint)
+	if err := _Dai.contract.UnpackLog(event, "Mint", log); err != nil {
+		return nil, err
+	}
+	return event, nil
 }
 
 // DaiTransferIterator is returned from FilterTransfer and is used to iterate over the raw logs and unpacked data for Transfer events raised by the Dai contract.
@@ -1528,4 +1647,15 @@ func (_Dai *DaiFilterer) WatchTransfer(opts *bind.WatchOpts, sink chan<- *DaiTra
 			}
 		}
 	}), nil
+}
+
+// ParseTransfer is a log parse operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
+//
+// Solidity: event Transfer(address indexed src, address indexed dst, uint256 wad)
+func (_Dai *DaiFilterer) ParseTransfer(log types.Log) (*DaiTransfer, error) {
+	event := new(DaiTransfer)
+	if err := _Dai.contract.UnpackLog(event, "Transfer", log); err != nil {
+		return nil, err
+	}
+	return event, nil
 }
