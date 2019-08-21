@@ -84,6 +84,11 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    DSGuardAddress, tx, DSGuard, err = makerDAO.DeployDSGuard(BankAccount.TransactOpts(), Backend)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
     DSProxyFactoryAddress, tx, DSProxyFactory, err = makerDAO.DeployDSProxyFactory(BankAccount.TransactOpts(), Backend)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
