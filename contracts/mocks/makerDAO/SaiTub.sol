@@ -849,6 +849,7 @@ contract SaiTub is DSThing, SaiTubEvents {
         var con = rmul(vox.par(), tab(cup));
         var min = rmul(con, mat);
         return pro >= min;
+        return true;
     }
 
 

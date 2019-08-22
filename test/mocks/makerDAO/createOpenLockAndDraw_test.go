@@ -25,6 +25,16 @@ var _ = Describe("CreateOpenLockAndDraw", func() {
             Backend.Commit()
             Expect(isSuccessful(tx)).To(BeTrue())
 
+            tx, err = Pip.SetAuthority(BankAccount.TransactOpts(), DSGuardAddress)
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+
+            tx, err = Pip.SetMin(BankAccount.TransactOpts(), big.NewInt(7))
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+
             //keccak256(mint(address,uint256)) = 0x40c10f19
             mintID := common.Hex2Bytes("40c10f19")
             var mintID32 = [32]byte{}
@@ -87,45 +97,61 @@ var _ = Describe("CreateOpenLockAndDraw", func() {
             Backend.Commit()
             Expect(isSuccessful(tx)).To(BeTrue())
 
+            tx, err = SaiProxy.CreateOpenLockAndDraw(RandomAccount.TransactOpts(ethertest.WithValue(FinneyToWei(30))), ProxyRegistryAddress, SaiTubAddress, EthToWei(3))
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+
         })
 
     	When("CreateOpenLockAndDraw is called by with 0.03 ETH (30 Finney)", func() {
 
-            It("Should succeed", func() {
+            It("update the cap value", func() {
     			cap, err := SaiTub.Cap(nil)
                 Expect(err).ToNot(HaveOccurred())
     			Expect(cap.String()).To(Equal(EthToWei(10).String()))
     		})
 
-            It("Should succeed", func() {
+            It("update the axe value", func() {
     			axe, err := SaiTub.Axe(nil)
                 Expect(err).ToNot(HaveOccurred())
     			Expect(axe.String()).To(Equal("1130000000000000000000000000"))
     		})
 
-            It("Should succeed", func() {
-    			axe, err := SaiTub.Tax(nil)
+            It("update the tax value", func() {
+    			tax, err := SaiTub.Tax(nil)
                 Expect(err).ToNot(HaveOccurred())
-    			Expect(axe.String()).To(Equal("1000000000000000000000000000"))
+    			Expect(tax.String()).To(Equal("1000000000000000000000000000"))
     		})
 
-            It("Should succeed", func() {
+            It("update the mat value", func() {
     			mat, err := SaiTub.Mat(nil)
                 Expect(err).ToNot(HaveOccurred())
     			Expect(mat.String()).To(Equal("1500000000000000000000000000"))
     		})
 
-            It("Should succeed", func() {
+            It("update the stability fee", func() {
     			fee, err := SaiTub.Fee(nil)
                 Expect(err).ToNot(HaveOccurred())
     			Expect(fee.String()).To(Equal("1000000005913228294456064283"))
     		})
 
-    		FIt("Should succeed", func() {
-    			tx, err := SaiProxy.CreateOpenLockAndDraw(RandomAccount.TransactOpts(ethertest.WithValue(FinneyToWei(30))), ProxyRegistryAddress, SaiTubAddress, EthToWei(3))
+            It("read the mock value", func() {
+    			val, err := Pip.Read(nil)
                 Expect(err).ToNot(HaveOccurred())
-    			Backend.Commit()
-    			Expect(isSuccessful(tx)).To(BeTrue())
+                Expect(val).To(Equal([32]byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 107, 168, 99, 12, 93, 118, 128, 0}))
+    		})
+
+            It("Should increase the total DAI supply", func() {
+                ts, err := Dai.TotalSupply(nil)
+                Expect(err).ToNot(HaveOccurred())
+                Expect(ts.String()).To(Equal(EthToWei(3).String()))
+    		})
+
+    		It("Should increase the random acount's DAI balance", func() {
+                bal, err := Dai.BalanceOf(nil, RandomAccount.Address())
+                Expect(err).ToNot(HaveOccurred())
+                Expect(bal.String()).To(Equal(EthToWei(3).String()))
     		})
 
     	})

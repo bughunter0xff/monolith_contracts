@@ -271,9 +271,11 @@ contract DSValue is DSThing {
         return (val,has);
     }
     function read() constant returns (bytes32) {
-        var (wut, has) = peek();
+        //mock value
+        return 0x00000000000000000000000000000000000000000000000a6ba8630c5d768000;
+        /* var (wut, has) = peek();
         assert(has);
-        return wut;
+        return wut; */
     }
     function poke(bytes32 wut) note auth {
         val = wut;
