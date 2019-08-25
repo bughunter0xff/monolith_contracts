@@ -8,10 +8,11 @@ import (
     "math/big"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"github.com/tokencard/contracts/v2/pkg/bindings/mocks/makerDAO"
-	. "github.com/tokencard/contracts/v2/test/shared"
+    "github.com/tokencard/contracts/v2/pkg/bindings"
+    . "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+    . "github.com/tokencard/contracts/v2/test/shared"
 )
 
 var SaiProxy *makerDAO.SaiProxyCreateAndExecute
@@ -55,6 +56,9 @@ var GemPitAddress common.Address
 
 var DSGuard *makerDAO.DSGuard
 var DSGuardAddress common.Address
+
+var Wallet *bindings.Wallet
+var WalletAddress common.Address
 
 func init() {
 	TestRig.AddCoverageForContracts(
@@ -152,6 +156,11 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     SaiTubAddress, tx, SaiTub, err = makerDAO.DeploySaiTub(BankAccount.TransactOpts(), Backend, DaiAddress, SinAddress, SkrAddress, WETHAddress, MKRAddress, PipAddress, PepAddress, SaiVoxAddress, GemPitAddress)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    WalletAddress, tx, Wallet, err = bindings.DeployWallet(BankAccount.TransactOpts(), Backend, Owner.Address(), true, ENSRegistryAddress, TokenWhitelistName, ControllerName, LicenceName, EthToWei(1))
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
