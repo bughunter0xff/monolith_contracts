@@ -3,29 +3,13 @@ pragma solidity 0.4.18;
 import "./ERC20Interface.sol";
 import "./KyberReserveInterface.sol";
 import "./KyberNetworkInterface.sol";
+import "./ExpectedRateInterface.sol";
+import "./FeeBurnerInterface.sol";
 import "./PermissionGroups.sol";
-import "./Withdrawable.sol";
 import "./Utils.sol";
 import "./Utils2.sol";
-
-// File: contracts/WhiteListInterface.sol
-contract WhiteListInterface {
-    function getUserCapInWei(address user) external view returns (uint userCapWei);
-}
-
-// File: contracts/ExpectedRateInterface.sol
-interface ExpectedRateInterface {
-    function getExpectedRate(ERC20 src, ERC20 dest, uint srcQty, bool usePermissionless) public view
-        returns (uint expectedRate, uint slippageRate);
-}
-
-// File: contracts/FeeBurnerInterface.sol
-interface FeeBurnerInterface {
-    function handleFees (uint tradeWeiAmount, address reserve, address wallet) public returns(bool);
-    function setReserveData(address reserve, uint feesInBps, address kncWallet) public;
-}
-
-// File: contracts/KyberNetwork.sol
+import "./Withdrawable.sol";
+import "./WhiteListInterface.sol";
 
 /**
  * @title Helps contracts guard against reentrancy attacks.

@@ -2,11 +2,25 @@ pragma solidity 0.4.18;
 
 import "./ERC20Interface.sol";
 import "./KyberNetworkInterface.sol";
-import "./KyberNetworkInterface.sol";
 import "./Utils.sol";
 import "./Utils2.sol";
 import "./PermissionGroups.sol";
 import "./Withdrawable.sol";
+
+/// @title Kyber Network interface
+interface KyberNetworkProxyInterface {
+    function maxGasPrice() public view returns(uint);
+    function getUserCapInWei(address user) public view returns(uint);
+    function getUserCapInTokenWei(address user, ERC20 token) public view returns(uint);
+    function enabled() public view returns(bool);
+    function info(bytes32 id) public view returns(uint);
+
+    function getExpectedRate(ERC20 src, ERC20 dest, uint srcQty) public view
+        returns (uint expectedRate, uint slippageRate);
+
+    function tradeWithHint(ERC20 src, uint srcAmount, ERC20 dest, address destAddress, uint maxDestAmount,
+        uint minConversionRate, address walletId, bytes hint) public payable returns(uint);
+}
 
 // File: contracts/SimpleNetworkInterface.sol
 /// @title simple interface for Kyber Network
@@ -20,7 +34,7 @@ interface SimpleNetworkInterface {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @title Kyber Network proxy for main contract
-contract KyberNetworkProxy is KyberNetworkInterface, SimpleNetworkInterface, Withdrawable, Utils2 {
+contract KyberNetworkProxy is KyberNetworkProxyInterface, SimpleNetworkInterface, Withdrawable, Utils2 {
 
     KyberNetworkInterface public kyberNetworkContract;
 
