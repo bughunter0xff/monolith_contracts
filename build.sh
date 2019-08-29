@@ -104,11 +104,15 @@ makerDAO_contracts=(
 kyber_sources=(
     'mocks/kyber/KyberReserve'
     'mocks/kyber/LiquidityConversionRates'
+    'mocks/kyber/KyberNetworkProxy'
+    'mocks/kyber/KyberNetwork'
 )
 
 kyber_contracts=(
     "mocks/kyber/KyberReserve/KyberReserve mocks/kyber/KyberReserve.go KyberReserve kyber"
     "mocks/kyber/LiquidityConversionRates/LiquidityConversionRates mocks/kyber/LiquidityConversionRates.go LiquidityConversionRates kyber"
+    "mocks/kyber/KyberNetworkProxy/KyberNetworkProxy mocks/kyber/KyberNetworkProxy.go KyberNetworkProxy kyber"
+    "mocks/kyber/KyberNetwork/KyberNetwork mocks/kyber/KyberNetwork.go KyberNetwork kyber"
 )
 
 if [ -z "$1" ] || [ "$1" == "all" ]
