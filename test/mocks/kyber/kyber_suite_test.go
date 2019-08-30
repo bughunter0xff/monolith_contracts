@@ -26,6 +26,12 @@ var KyberNetworkProxyAddress common.Address
 var KyberNetwork *kyber.KyberNetwork
 var KyberNetworkAddress common.Address
 
+var KyberReserve *kyber.KyberReserve
+var KyberReserveAddress common.Address
+
+var LiquidityConversionRates *kyber.LiquidityConversionRates
+var LiquidityConversionRatesAddress common.Address
+
 var FeeBurner *kyber.FeeBurner
 var FeeBurnerAddress common.Address
 
@@ -46,6 +52,7 @@ var _ = BeforeEach(func() {
 
     var tx *types.Transaction
 
+    // deploy contracts
     KyberNetworkProxyAddress, tx, KyberNetworkProxy, err = kyber.DeployKyberNetworkProxy(BankAccount.TransactOpts(), Backend, Owner.Address())
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
@@ -70,6 +77,16 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     ExpectedRateAddress, tx, ExpectedRate, err = kyber.DeployExpectedRate(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, KNCAddress, Owner.Address())
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    LiquidityConversionRatesAddress, tx, LiquidityConversionRates, err = kyber.DeployLiquidityConversionRates(BankAccount.TransactOpts(), Backend, Owner.Address(), TKNBurnerAddress)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    KyberReserveAddress, tx, KyberReserve, err = kyber.DeployKyberReserve(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, LiquidityConversionRatesAddress, Owner.Address())
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -109,6 +126,35 @@ var _ = BeforeEach(func() {
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
+
+
+    tx, err = LiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), KyberReserveAddress)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    maxCapBuyInWei := new(big.Int)
+    maxCapBuyInWei.SetString("10000000000000000000",10)
+    tx, err = LiquidityConversionRates.SetLiquidityParams(Owner.TransactOpts(),
+    big.NewInt(7696581394),
+    big.NewInt(1374389534),
+    big.NewInt(40),
+    maxCapBuyInWei,
+    maxCapBuyInWei,
+    big.NewInt(25),
+    big.NewInt(5000000000000000),
+    big.NewInt(1250000000000000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    //depsoit ETH and TKN to the reserve Contract
+    BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
+
+    tx, err = TKNBurner.Mint(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
 })
 
 var _ = AfterEach(func() {

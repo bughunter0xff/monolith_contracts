@@ -1,13 +1,10 @@
 package kyber_test
 
 import (
-    // "math/big"
-    // "strings"
+    "context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	// . "github.com/tokencard/contracts/v2/test/shared"
-	// "github.com/ethereum/go-ethereum/accounts/abi"
-    // "github.com/ethereum/go-ethereum/common"
+	. "github.com/tokencard/contracts/v2/test/shared"
 )
 
 var _ = Describe("kyber setup test", func() {
@@ -60,5 +57,27 @@ var _ = Describe("kyber setup test", func() {
         Expect(en).To(BeTrue())
     })
 
+    It("should enable trades", func() {
+        te, err := KyberReserve.TradeEnabled(nil)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(te).To(BeTrue())
+    })
 
+    It("should enable trades", func() {
+        te, err := KyberReserve.TradeEnabled(nil)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(te).To(BeTrue())
+    })
+
+    It("should increase the ETH balance of the reserve contract by 100 ETH", func() {
+        b, e := Backend.BalanceAt(context.Background(), KyberReserveAddress, nil)
+        Expect(e).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal(EthToWei(100).String()))
+    })
+
+    It("should increase TKN balance of the reserve", func() {
+        b, err := TKNBurner.BalanceOf(nil, KyberReserveAddress)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal("38000"))
+    })
 })
