@@ -11,6 +11,7 @@ import (
     "github.com/tokencard/contracts/v2/pkg/bindings/mocks"
 	"github.com/tokencard/contracts/v2/pkg/bindings/mocks/kyber"
     "github.com/tokencard/contracts/v2/pkg/bindings"
+    "github.com/tokencard/ethertest"
     . "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
     . "github.com/tokencard/contracts/v2/test/shared"
@@ -38,8 +39,10 @@ var FeeBurnerAddress common.Address
 var ExpectedRate *kyber.ExpectedRate
 var ExpectedRateAddress common.Address
 
-var KNC *mocks.BurnerToken
-var KNCAddress common.Address
+var KNCBurner *mocks.BurnerToken
+var KNCBurnerAddress common.Address
+
+var KNCWallet *ethertest.Account
 
 func TestTokenWhitelistSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -64,19 +67,19 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
 
-    KNCAddress, tx, KNC, err = mocks.DeployBurnerToken(Owner.TransactOpts(), Backend)
+    KNCBurnerAddress, tx, KNCBurner, err = mocks.DeployBurnerToken(Owner.TransactOpts(), Backend)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     kncEthPrec := new(big.Int)
     kncEthPrec.SetString("1273294871580578838478",10)
-    FeeBurnerAddress, tx, FeeBurner, err = kyber.DeployFeeBurner(BankAccount.TransactOpts(), Backend, Owner.Address(), KNCAddress, KyberNetworkAddress, kncEthPrec)
+    FeeBurnerAddress, tx, FeeBurner, err = kyber.DeployFeeBurner(BankAccount.TransactOpts(), Backend, Owner.Address(), KNCBurnerAddress, KyberNetworkAddress, kncEthPrec)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    ExpectedRateAddress, tx, ExpectedRate, err = kyber.DeployExpectedRate(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, KNCAddress, Owner.Address())
+    ExpectedRateAddress, tx, ExpectedRate, err = kyber.DeployExpectedRate(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, KNCBurnerAddress, Owner.Address())
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -148,10 +151,28 @@ var _ = BeforeEach(func() {
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    //depsoit ETH and TKN to the reserve Contract
+    KNCWallet = ethertest.NewAccount()
+    TestRig.AddGenesisAccountAllocation(KNCWallet.Address(), EthToWei(1))
+
+    tx, err = FeeBurner.AddOperator(Owner.TransactOpts(), Owner.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = FeeBurner.SetReserveData(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(25), KNCWallet.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    //deposit ETH and TKN to the reserve Contract
     BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
 
     tx, err = TKNBurner.Mint(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = KNCBurner.Mint(Owner.TransactOpts(), KNCWallet.Address(), big.NewInt(38000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())

@@ -21,6 +21,18 @@ var _ = Describe("kyber setup test", func() {
         Expect(prec.String()).To(Equal("1273294871580578838478"))
     })
 
+    It("should set the right Bps KNC wallet correspondence in FeeBurner", func() {
+        bps, err := FeeBurner.ReserveFeesInBps(nil, KyberReserveAddress)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(bps.String()).To(Equal("25"))
+    })
+
+    It("should set the right reserve/KNCWallet correspondence in FeeBurner", func() {
+        kncw, err := FeeBurner.ReserveKNCWallet(nil, KyberReserveAddress)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(kncw).To(Equal(KNCWallet.Address()))
+    })
+
     It("should set the correct kyber network proxy", func() {
         knp, err := KyberNetwork.KyberNetworkProxyContract(nil)
         Expect(err).ToNot(HaveOccurred())
@@ -77,6 +89,12 @@ var _ = Describe("kyber setup test", func() {
 
     It("should increase TKN balance of the reserve", func() {
         b, err := TKNBurner.BalanceOf(nil, KyberReserveAddress)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal("38000"))
+    })
+
+    It("should increase KNC balance of the KNC wallet", func() {
+        b, err := KNCBurner.BalanceOf(nil, KNCWallet.Address())
         Expect(err).ToNot(HaveOccurred())
         Expect(b.String()).To(Equal("38000"))
     })
