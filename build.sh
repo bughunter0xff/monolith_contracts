@@ -108,6 +108,7 @@ kyber_sources=(
     'mocks/kyber/LiquidityConversionRates'
     'mocks/kyber/FeeBurner'
     'mocks/kyber/ExpectedRate'
+    'mocks/kyber/SanityRates'
 )
 
 kyber_contracts=(
@@ -117,6 +118,8 @@ kyber_contracts=(
     "mocks/kyber/LiquidityConversionRates/LiquidityConversionRates mocks/kyber/LiquidityConversionRates.go LiquidityConversionRates kyber"
     "mocks/kyber/FeeBurner/FeeBurner mocks/kyber/FeeBurner.go FeeBurner kyber"
     "mocks/kyber/ExpectedRate/ExpectedRate mocks/kyber/ExpectedRate.go ExpectedRate kyber"
+    "mocks/kyber/SanityRates/SanityRates mocks/kyber/SanityRates.go SanityRates kyber"
+
 )
 
 if [ -z "$1" ] || [ "$1" == "all" ]

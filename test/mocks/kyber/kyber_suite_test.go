@@ -39,6 +39,10 @@ var FeeBurnerAddress common.Address
 var ExpectedRate *kyber.ExpectedRate
 var ExpectedRateAddress common.Address
 
+
+var SanityRates *kyber.SanityRates
+var SanityRatesAddress common.Address
+
 var KNCBurner *mocks.BurnerToken
 var KNCBurnerAddress common.Address
 
@@ -66,7 +70,6 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-
     KNCBurnerAddress, tx, KNCBurner, err = mocks.DeployBurnerToken(Owner.TransactOpts(), Backend)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
@@ -85,6 +88,11 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     LiquidityConversionRatesAddress, tx, LiquidityConversionRates, err = kyber.DeployLiquidityConversionRates(BankAccount.TransactOpts(), Backend, Owner.Address(), TKNBurnerAddress)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    SanityRatesAddress, tx, SanityRates, err = kyber.DeploySanityRates(BankAccount.TransactOpts(), Backend, Owner.Address())
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -130,6 +138,20 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    tx, err = KyberNetwork.AddOperator(Owner.TransactOpts(), Owner.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), KyberReserveAddress, true)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = KyberNetwork.ListPairForReserve(Owner.TransactOpts(), KyberReserveAddress, TKNBurnerAddress, true, true, true)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
 
     tx, err = LiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), KyberReserveAddress)
     Expect(err).ToNot(HaveOccurred())
@@ -164,8 +186,19 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    tx, err = FeeBurner.SetWalletFees(Owner.TransactOpts(), KNCWallet.Address(), big.NewInt(25))
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = SanityRates.AddOperator(Owner.TransactOpts(), Owner.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
     //deposit ETH and TKN to the reserve Contract
     BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
+    BankAccount.MustTransfer(Backend, WalletAddress, EthToWei(2))
 
     tx, err = TKNBurner.Mint(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
     Expect(err).ToNot(HaveOccurred())

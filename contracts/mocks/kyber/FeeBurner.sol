@@ -8,7 +8,7 @@ import "./Utils.sol";
 import "./Utils2.sol";
 import "./Withdrawable.sol";
 
-// File: contracts/FeeBurner.sol
+
 interface BurnableToken {
     function transferFrom(address _from, address _to, uint _value) public returns (bool);
     function burnFrom(address _from, uint256 _value) public returns (bool);
