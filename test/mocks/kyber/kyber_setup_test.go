@@ -2,12 +2,13 @@ package kyber_test
 
 import (
     "context"
+    "github.com/ethereum/go-ethereum/common"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/tokencard/contracts/v2/test/shared"
 )
 
-var _ = Describe("kyber setup test", func() {
+var _ = FDescribe("kyber setup test", func() {
 
     It("should set the correct kyber network in proxy", func() {
         kn, err := KyberNetworkProxy.KyberNetworkContract(nil)
@@ -93,27 +94,28 @@ var _ = Describe("kyber setup test", func() {
         Expect(b.String()).To(Equal(EthToWei(100).String()))
     })
 
-    It("should increase TKN balance of the reserve", func() {
-        b, err := TKNBurner.BalanceOf(nil, KyberReserveAddress)
+    It("should increase the TKN balance TKN wallet", func() {
+        b, err := TKNBurner.BalanceOf(nil, TKNWallet.Address())
         Expect(err).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal("38000"))
+        Expect(b.String()).To(Equal(EthToWei(38000).String()))
     })
 
-    It("should increase KNC balance of the KNC wallet", func() {
+    It("should increase the KNC balance of the KNC wallet", func() {
         b, err := KNCBurner.BalanceOf(nil, KNCWallet.Address())
         Expect(err).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal("38000"))
+        Expect(b.String()).To(Equal(EthToWei(38000).String()))
     })
 
-    It("should increase the ETH balance of the TKN Wallet by 1 ETH", func() {
-        b, e := Backend.BalanceAt(context.Background(), TKNWallet.Address(), nil)
+    It("should increase kyber reserve's TKN balance ", func() {
+        b, e := KyberReserve.GetBalance(nil, TKNBurnerAddress)
         Expect(e).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(1).String()))
+        Expect(b.String()).To(Equal(EthToWei(38000).String()))
     })
 
-    It("should increase the ETH balance of the the KNC Wallet by 1 ETH", func() {
-        b, e := Backend.BalanceAt(context.Background(), KNCWallet.Address(), nil)
+    It("should increase kyber reserve's ETH balance ", func() {
+        b, e := KyberReserve.GetBalance(nil, common.HexToAddress("00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
         Expect(e).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(1).String()))
+        Expect(b.String()).To(Equal(EthToWei(100).String()))
     })
+
 })
