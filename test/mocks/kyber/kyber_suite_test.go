@@ -60,7 +60,7 @@ var _ = BeforeEach(func() {
 
     var tx *types.Transaction
 
-    //initialize and fund wallets
+    //initialize wallets
     KNCWallet = ethertest.NewAccount()
     TKNWallet = ethertest.NewAccount()
 
@@ -210,17 +210,22 @@ var _ = BeforeEach(func() {
     BankAccount.MustTransfer(Backend, KNCWallet.Address(), EthToWei(1))
     BankAccount.MustTransfer(Backend, TKNWallet.Address(), EthToWei(1))
 
-    tx, err = TKNBurner.Mint(Owner.TransactOpts(), TKNWallet.Address(), big.NewInt(38000))
+    tx, err = TKNBurner.Mint(Owner.TransactOpts(), TKNWallet.Address(), EthToWei(38000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
+    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, EthToWei(38000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = KNCBurner.Mint(Owner.TransactOpts(), KNCWallet.Address(), big.NewInt(38000))
+    tx, err = KNCBurner.Mint(Owner.TransactOpts(), KNCWallet.Address(), EthToWei(38000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = KNCBurner.Approve(KNCWallet.TransactOpts(), FeeBurnerAddress, EthToWei(38000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())

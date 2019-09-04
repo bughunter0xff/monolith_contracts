@@ -53,7 +53,7 @@ contract BurnerToken {
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint _value) external returns (bool success) {
+    function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
         if (_to == address(0)) return false;
         if (balanceOf[_from] < _value) return false;
 
@@ -109,5 +109,12 @@ contract BurnerToken {
         result = tokenholder.burn(msg.sender, _amount);
         if (!result) revert();
         emit Transfer(msg.sender, address(0), _amount);
+    }
+
+    // save some gas by making only one contract call
+    //lift from KNC
+    function burnFrom(address _from, uint256 _value) public returns (bool) {
+        assert( transferFrom( _from, msg.sender, _value ) );
+        return burn(_value);
     }
 }
