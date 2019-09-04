@@ -39,7 +39,6 @@ var FeeBurnerAddress common.Address
 var ExpectedRate *kyber.ExpectedRate
 var ExpectedRateAddress common.Address
 
-
 var SanityRates *kyber.SanityRates
 var SanityRatesAddress common.Address
 
@@ -47,6 +46,8 @@ var KNCBurner *mocks.BurnerToken
 var KNCBurnerAddress common.Address
 
 var KNCWallet *ethertest.Account
+
+var TKNWallet *ethertest.Account
 
 func TestTokenWhitelistSuite(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -58,6 +59,10 @@ var _ = BeforeEach(func() {
 	Expect(err).ToNot(HaveOccurred())
 
     var tx *types.Transaction
+
+    //initialize and fund wallets
+    KNCWallet = ethertest.NewAccount()
+    TKNWallet = ethertest.NewAccount()
 
     // deploy contracts
     KyberNetworkProxyAddress, tx, KyberNetworkProxy, err = kyber.DeployKyberNetworkProxy(BankAccount.TransactOpts(), Backend, Owner.Address())
@@ -153,6 +158,11 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    tx, err = KyberReserve.SetTokenWallet(Owner.TransactOpts(), TKNBurnerAddress, TKNWallet.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
     tx, err = LiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), KyberReserveAddress)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
@@ -172,9 +182,6 @@ var _ = BeforeEach(func() {
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
-
-    KNCWallet = ethertest.NewAccount()
-    TestRig.AddGenesisAccountAllocation(KNCWallet.Address(), EthToWei(1))
 
     tx, err = FeeBurner.AddOperator(Owner.TransactOpts(), Owner.Address())
     Expect(err).ToNot(HaveOccurred())
@@ -196,11 +203,19 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+
     //deposit ETH and TKN to the reserve Contract
     BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
     BankAccount.MustTransfer(Backend, WalletAddress, EthToWei(2))
+    BankAccount.MustTransfer(Backend, KNCWallet.Address(), EthToWei(1))
+    BankAccount.MustTransfer(Backend, TKNWallet.Address(), EthToWei(1))
 
-    tx, err = TKNBurner.Mint(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
+    tx, err = TKNBurner.Mint(Owner.TransactOpts(), TKNWallet.Address(), big.NewInt(38000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, big.NewInt(38000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
