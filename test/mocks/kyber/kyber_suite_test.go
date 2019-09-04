@@ -82,7 +82,7 @@ var _ = BeforeEach(func() {
 
     kncEthPrec := new(big.Int)
     kncEthPrec.SetString("1273294871580578838478",10)
-    FeeBurnerAddress, tx, FeeBurner, err = kyber.DeployFeeBurner(BankAccount.TransactOpts(), Backend, Owner.Address(), KNCWallet.Address(), KyberNetworkAddress, kncEthPrec)
+    FeeBurnerAddress, tx, FeeBurner, err = kyber.DeployFeeBurner(BankAccount.TransactOpts(), Backend, Owner.Address(), KNCBurnerAddress, KyberNetworkAddress, kncEthPrec)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())

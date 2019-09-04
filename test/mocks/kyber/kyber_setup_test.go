@@ -8,7 +8,7 @@ import (
 	. "github.com/tokencard/contracts/v2/test/shared"
 )
 
-var _ = FDescribe("kyber setup test", func() {
+var _ = Describe("kyber setup test", func() {
 
     It("should set the correct kyber network in proxy", func() {
         kn, err := KyberNetworkProxy.KyberNetworkContract(nil)
