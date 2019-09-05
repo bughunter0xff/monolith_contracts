@@ -206,7 +206,7 @@ var _ = BeforeEach(func() {
 
     //deposit ETH and TKN to the reserve Contract
     BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
-    BankAccount.MustTransfer(Backend, WalletAddress, EthToWei(2))
+    BankAccount.MustTransfer(Backend, WalletAddress, EthToWei(1))
     BankAccount.MustTransfer(Backend, KNCWallet.Address(), EthToWei(1))
     BankAccount.MustTransfer(Backend, TKNWallet.Address(), EthToWei(1))
 

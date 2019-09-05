@@ -2,8 +2,10 @@ package kyber_test
 
 import (
     "math/big"
+    "strings"
+    "context"
+    "github.com/ethereum/go-ethereum/accounts/abi"
     "github.com/ethereum/go-ethereum/common"
-    "github.com/tokencard/ethertest"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/tokencard/contracts/v2/test/shared"
@@ -17,25 +19,37 @@ var _ = Describe("kyber trade with hint", func() {
         maxDestAmount := new(big.Int)
         maxDestAmount.SetString("8000000000000000000000000000000000000000000000000000000000000000",16)
         hint := common.Hex2Bytes("5045524d")
-        tx, err := KyberNetworkProxy.TradeWithHint(BankAccount.TransactOpts(ethertest.WithValue(EthToWei(1))),
-        common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"),
-        EthToWei(1),
-        TKNBurnerAddress,
-        WalletAddress,
-        maxDestAmount,
-        minConversionRate,
-        Owner.Address(),
-        hint,
+
+        a, err := abi.JSON(strings.NewReader(TRADEWITHHINTABI))
+        Expect(err).ToNot(HaveOccurred())
+        data, err := a.Pack("tradeWithHint",
+            common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"),
+            EthToWei(1),
+            TKNBurnerAddress,
+            WalletAddress,
+            maxDestAmount,
+            minConversionRate,
+            Owner.Address(),
+            hint,
         )
+        Expect(err).ToNot(HaveOccurred())
+
+        tx, err := Wallet.ExecuteTransaction(Owner.TransactOpts(), KyberNetworkProxyAddress, EthToWei(1), data)
         Expect(err).ToNot(HaveOccurred())
         Backend.Commit()
         Expect(isSuccessful(tx)).To(BeTrue())
     })
 
-    It("should increase TKN balance of the Wallet address", func() {
+    FIt("should increase TKN balance of the Wallet", func() {
         b, err := TKNBurner.BalanceOf(nil, WalletAddress)
         Expect(err).ToNot(HaveOccurred())
-        Expect(b.String()).ToNot(Equal("0"))
+        Expect(b.String()).To(Equal("39489134037"))
+    })
+
+    FIt("should decrease the ETH balance of the Wallet by 1 ETH", func() {
+        b, e := Backend.BalanceAt(context.Background(), WalletAddress, nil)
+        Expect(e).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal(EthToWei(0).String()))
     })
 
 
