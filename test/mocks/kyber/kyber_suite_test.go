@@ -148,7 +148,7 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), KyberReserveAddress, true)
+    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), KyberReserveAddress, false)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -215,7 +215,7 @@ var _ = BeforeEach(func() {
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, EthToWei(38000))
+    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, EthToWei(37000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())

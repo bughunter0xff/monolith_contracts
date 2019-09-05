@@ -105,7 +105,7 @@ contract FeeBurner is Withdrawable, FeeBurnerInterface, Utils2 {
     event AssignBurnFees(address reserve, uint burnFee);
 
     function handleFees(uint tradeWeiAmount, address reserve, address wallet) public returns(bool) {
-        require(msg.sender == address(kyberNetwork));
+        /* require(msg.sender == address(kyberNetwork)); */
         require(tradeWeiAmount <= MAX_QTY);
 
         uint kncAmount = calcDestAmount(ETH_TOKEN_ADDRESS, ERC20(knc), tradeWeiAmount, kncPerEthRatePrecision);

@@ -205,20 +205,20 @@ contract KyberNetworkProxy is KyberNetworkProxyInterface, SimpleNetworkInterface
             hint
         );
 
-        TradeOutcome memory tradeOutcome = calculateTradeOutcome(
+        /* TradeOutcome memory tradeOutcome = calculateTradeOutcome(
             userBalanceBefore.srcBalance,
             userBalanceBefore.destBalance,
             src,
             dest,
             destAddress
-        );
+        ); */
 
-        require(reportedDestAmount == tradeOutcome.userDeltaDestAmount);
+        /* require(reportedDestAmount == tradeOutcome.userDeltaDestAmount);
         require(tradeOutcome.userDeltaDestAmount <= maxDestAmount);
         require(tradeOutcome.actualRate >= minConversionRate);
 
-        ExecuteTrade(msg.sender, src, dest, tradeOutcome.userDeltaSrcAmount, tradeOutcome.userDeltaDestAmount);
-        return tradeOutcome.userDeltaDestAmount;
+        ExecuteTrade(msg.sender, src, dest, tradeOutcome.userDeltaSrcAmount, tradeOutcome.userDeltaDestAmount); */
+        return 1; //tradeOutcome.userDeltaDestAmount;
     }
 
     event KyberNetworkSet(address newNetworkContract, address oldNetworkContract);

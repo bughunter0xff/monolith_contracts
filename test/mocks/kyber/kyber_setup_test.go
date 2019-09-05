@@ -2,6 +2,7 @@ package kyber_test
 
 import (
     "context"
+    "math/big"
     "github.com/ethereum/go-ethereum/common"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -76,16 +77,34 @@ var _ = Describe("kyber setup test", func() {
         Expect(en).To(BeTrue())
     })
 
-    It("should enable trades", func() {
-        te, err := KyberReserve.TradeEnabled(nil)
+    It("should set the correct kyber network in proxy", func() {
+        nr, err := KyberNetwork.GetNumReserves(nil)
         Expect(err).ToNot(HaveOccurred())
-        Expect(te).To(BeTrue())
+        Expect(nr.String()).To(Equal("1"))
     })
 
     It("should enable trades", func() {
         te, err := KyberReserve.TradeEnabled(nil)
         Expect(err).ToNot(HaveOccurred())
         Expect(te).To(BeTrue())
+    })
+
+    It("should increase kyber reserve's TKN allowance ", func() {
+        b, e := KyberReserve.GetBalance(nil, TKNBurnerAddress)
+        Expect(e).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal(EthToWei(37000).String()))
+    })
+
+    It("should increase kyber reserve's ETH balance ", func() {
+        b, e := KyberReserve.GetBalance(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
+        Expect(e).ToNot(HaveOccurred())
+        Expect(b.String()).To(Equal(EthToWei(100).String()))
+    })
+
+    It("should set the TKN wallet ", func() {
+        tw, e := KyberReserve.TokenWallet(nil, TKNBurnerAddress)
+        Expect(e).ToNot(HaveOccurred())
+        Expect(tw).To(Equal(TKNWallet.Address()))
     })
 
     It("should increase the ETH balance of the reserve contract by 100 ETH", func() {
@@ -106,16 +125,38 @@ var _ = Describe("kyber setup test", func() {
         Expect(b.String()).To(Equal(EthToWei(38000).String()))
     })
 
-    It("should increase kyber reserve's TKN balance ", func() {
-        b, e := KyberReserve.GetBalance(nil, TKNBurnerAddress)
-        Expect(e).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(38000).String()))
+    It("should get the right conversion rate", func() {
+        cr, err := KyberReserve.GetConversionRate(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1), big.NewInt(1))
+        Expect(err).ToNot(HaveOccurred())
+        Expect(cr.String()).To(Equal("394891340376052539795"))
     })
 
-    It("should increase kyber reserve's ETH balance ", func() {
-        b, e := KyberReserve.GetBalance(nil, common.HexToAddress("00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
-        Expect(e).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(100).String()))
+    It("should get the right conversion rate", func() {
+        cr, err := KyberReserve.GetConversionRate(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1), big.NewInt(1))
+        Expect(err).ToNot(HaveOccurred())
+        Expect(cr.String()).To(Equal("394891340376052539795"))
+    })
+
+    It("should get the right dest quantity", func() {
+        cr, err := KyberReserve.GetConversionRate(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1), big.NewInt(1))
+        qty, err := KyberReserve.GetDestQty(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1), cr)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(qty.String()).To(Equal("39489134037"))
+    })
+
+
+    It("should find", func() {
+        br, err := KyberNetwork.FindBestRate(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1))
+        Expect(err).ToNot(HaveOccurred())
+        Expect(br.Obsolete.String()).To(Equal("0"))
+        Expect(br.Rate.String()).To(Equal("394891340370000000000"))
+    })
+
+    It("should find", func() {
+        reserve, rate, err := KyberNetwork.SearchBestRate(nil, common.HexToAddress("0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"), TKNBurnerAddress, EthToWei(1), false)
+        Expect(err).ToNot(HaveOccurred())
+        Expect(reserve).To(Equal(KyberReserveAddress))
+        Expect(rate.String()).To(Equal("394891340376052539795"))
     })
 
 })
