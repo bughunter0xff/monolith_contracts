@@ -206,16 +206,15 @@ var _ = BeforeEach(func() {
 
     //deposit ETH and TKN to the reserve Contract
     BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
-    BankAccount.MustTransfer(Backend, WalletAddress, EthToWei(1))
     BankAccount.MustTransfer(Backend, KNCWallet.Address(), EthToWei(1))
     BankAccount.MustTransfer(Backend, TKNWallet.Address(), EthToWei(1))
 
-    tx, err = TKNBurner.Mint(Owner.TransactOpts(), TKNWallet.Address(), EthToWei(38000))
+    tx, err = TKNBurner.Mint(Owner.TransactOpts(), TKNWallet.Address(), big.NewInt(3800000000000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, EthToWei(37000))
+    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, big.NewInt(3700000000000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())

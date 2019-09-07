@@ -92,7 +92,7 @@ var _ = Describe("kyber setup test", func() {
     It("should increase kyber reserve's TKN allowance ", func() {
         b, e := KyberReserve.GetBalance(nil, TKNBurnerAddress)
         Expect(e).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(37000).String()))
+        Expect(b.String()).To(Equal("3700000000000"))
     })
 
     It("should increase kyber reserve's ETH balance ", func() {
@@ -116,7 +116,7 @@ var _ = Describe("kyber setup test", func() {
     It("should increase the TKN balance TKN wallet", func() {
         b, err := TKNBurner.BalanceOf(nil, TKNWallet.Address())
         Expect(err).ToNot(HaveOccurred())
-        Expect(b.String()).To(Equal(EthToWei(38000).String()))
+        Expect(b.String()).To(Equal("3800000000000"))
     })
 
     It("should increase the KNC balance of the KNC wallet", func() {
