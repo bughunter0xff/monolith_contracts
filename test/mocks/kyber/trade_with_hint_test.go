@@ -128,6 +128,67 @@ var _ = Describe("kyber trade with hint", func() {
         })
     })
 
+    When("TKN is swapped with DAI ", func() {
+
+        //Wallet has 38 TKN and approves kyber proxy
+        BeforeEach(func() {
+            tx, err := TKNBurner.Mint(Owner.TransactOpts(), WalletAddress, big.NewInt(3800000000))
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+        })
+
+        BeforeEach(func() {
+            a, err := abi.JSON(strings.NewReader(ERC20_APPROVE_ABI))
+            Expect(err).ToNot(HaveOccurred())
+            data, err := a.Pack("approve", KyberNetworkProxyAddress, big.NewInt(3800000000))
+            Expect(err).ToNot(HaveOccurred())
+
+            tx, err := Wallet.ExecuteTransaction(Owner.TransactOpts(), TKNBurnerAddress, big.NewInt(0), data)
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+        })
+
+        BeforeEach(func() {
+            minConversionRate := new(big.Int)
+            minConversionRate.SetString("2436462325766737",10)
+            maxDestAmount := new(big.Int)
+            maxDestAmount.SetString("8000000000000000000000000000000000000000000000000000000000000000",16)
+            hint := common.Hex2Bytes("5045524d")
+
+            a, err := abi.JSON(strings.NewReader(TRADEWITHHINT_ABI))
+            Expect(err).ToNot(HaveOccurred())
+            data, err := a.Pack("tradeWithHint",
+                TKNBurnerAddress,
+                big.NewInt(3800000000),
+                DAIAddress,
+                WalletAddress,
+                maxDestAmount,
+                minConversionRate,
+                KNCWallet.Address(),
+                hint,
+            )
+            Expect(err).ToNot(HaveOccurred())
+
+            tx, err := Wallet.ExecuteTransaction(Owner.TransactOpts(), KyberNetworkProxyAddress, big.NewInt(0), data)
+            Expect(err).ToNot(HaveOccurred())
+            Backend.Commit()
+            Expect(isSuccessful(tx)).To(BeTrue())
+        })
+
+        It("should decrease the TKN balance of the Wallet", func() {
+            b, err := TKNBurner.BalanceOf(nil, WalletAddress)
+            Expect(err).ToNot(HaveOccurred())
+            Expect(b.String()).To(Equal("0"))
+        })
+
+        It("should increase the DAI balance of the Wallet", func() {
+            b, err := DAI.BalanceOf(nil, WalletAddress)
+            Expect(err).ToNot(HaveOccurred())
+            Expect(b.String()).To(Equal("3778500074"))
+        })
+    })
 
 
 })

@@ -10,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
     "github.com/tokencard/contracts/v2/pkg/bindings/mocks"
 	"github.com/tokencard/contracts/v2/pkg/bindings/mocks/kyber"
+    // "github.com/tokencard/contracts/v2/pkg/bindings/mocks/makerDAO"
     "github.com/tokencard/contracts/v2/pkg/bindings"
     "github.com/tokencard/ethertest"
     . "github.com/onsi/ginkgo"
@@ -27,11 +28,17 @@ var KyberNetworkProxyAddress common.Address
 var KyberNetwork *kyber.KyberNetwork
 var KyberNetworkAddress common.Address
 
-var KyberReserve *kyber.KyberReserve
-var KyberReserveAddress common.Address
+var TKNReserve *kyber.KyberReserve
+var TKNReserveAddress common.Address
 
-var LiquidityConversionRates *kyber.LiquidityConversionRates
-var LiquidityConversionRatesAddress common.Address
+var DAIReserve *kyber.KyberReserve
+var DAIReserveAddress common.Address
+
+var TKNLiquidityConversionRates *kyber.LiquidityConversionRates
+var TKNLiquidityConversionRatesAddress common.Address
+
+var DAILiquidityConversionRates *kyber.LiquidityConversionRates
+var DAILiquidityConversionRatesAddress common.Address
 
 var FeeBurner *kyber.FeeBurner
 var FeeBurnerAddress common.Address
@@ -44,6 +51,9 @@ var SanityRatesAddress common.Address
 
 var KNCBurner *mocks.BurnerToken
 var KNCBurnerAddress common.Address
+
+var DAI *mocks.BurnerToken
+var DAIAddress common.Address
 
 var KNCWallet *ethertest.Account
 
@@ -75,6 +85,11 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    DAIAddress, tx, DAI, err = mocks.DeployBurnerToken(Owner.TransactOpts(), Backend)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
     KNCBurnerAddress, tx, KNCBurner, err = mocks.DeployBurnerToken(Owner.TransactOpts(), Backend)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
@@ -92,7 +107,12 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    LiquidityConversionRatesAddress, tx, LiquidityConversionRates, err = kyber.DeployLiquidityConversionRates(BankAccount.TransactOpts(), Backend, Owner.Address(), TKNBurnerAddress)
+    TKNLiquidityConversionRatesAddress, tx, TKNLiquidityConversionRates, err = kyber.DeployLiquidityConversionRates(BankAccount.TransactOpts(), Backend, Owner.Address(), TKNBurnerAddress)
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    DAILiquidityConversionRatesAddress, tx, DAILiquidityConversionRates, err = kyber.DeployLiquidityConversionRates(BankAccount.TransactOpts(), Backend, Owner.Address(), DAIAddress)
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -102,7 +122,12 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    KyberReserveAddress, tx, KyberReserve, err = kyber.DeployKyberReserve(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, LiquidityConversionRatesAddress, Owner.Address())
+    TKNReserveAddress, tx, TKNReserve, err = kyber.DeployKyberReserve(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, TKNLiquidityConversionRatesAddress, Owner.Address())
+	Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    DAIReserveAddress, tx, DAIReserve, err = kyber.DeployKyberReserve(BankAccount.TransactOpts(), Backend, KyberNetworkAddress, DAILiquidityConversionRatesAddress, Owner.Address())
 	Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -148,29 +173,58 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), KyberReserveAddress, false)
+    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), TKNReserveAddress, false)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = KyberNetwork.ListPairForReserve(Owner.TransactOpts(), KyberReserveAddress, TKNBurnerAddress, true, true, true)
+    tx, err = KyberNetwork.AddReserve(Owner.TransactOpts(), DAIReserveAddress, false)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = KyberReserve.SetTokenWallet(Owner.TransactOpts(), TKNBurnerAddress, TKNWallet.Address())
+    tx, err = KyberNetwork.ListPairForReserve(Owner.TransactOpts(), TKNReserveAddress, TKNBurnerAddress, true, true, true)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = LiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), KyberReserveAddress)
+    tx, err = KyberNetwork.ListPairForReserve(Owner.TransactOpts(), DAIReserveAddress, DAIAddress, true, true, true)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = TKNReserve.SetTokenWallet(Owner.TransactOpts(), TKNBurnerAddress, TKNWallet.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = TKNLiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), TKNReserveAddress)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = DAILiquidityConversionRates.SetReserveAddress(Owner.TransactOpts(), DAIReserveAddress)
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
     maxCapBuyInWei := new(big.Int)
     maxCapBuyInWei.SetString("10000000000000000000",10)
-    tx, err = LiquidityConversionRates.SetLiquidityParams(Owner.TransactOpts(),
+    tx, err = TKNLiquidityConversionRates.SetLiquidityParams(Owner.TransactOpts(),
+    big.NewInt(7696581394),
+    big.NewInt(1374389534),
+    big.NewInt(40),
+    maxCapBuyInWei,
+    maxCapBuyInWei,
+    big.NewInt(25),
+    big.NewInt(5000000000000000),
+    big.NewInt(1250000000000000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    maxCapBuyInWei.SetString("10000000000000000000",10)
+    tx, err = DAILiquidityConversionRates.SetLiquidityParams(Owner.TransactOpts(),
     big.NewInt(7696581394),
     big.NewInt(1374389534),
     big.NewInt(40),
@@ -188,7 +242,7 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = FeeBurner.SetReserveData(Owner.TransactOpts(), KyberReserveAddress, big.NewInt(25), KNCWallet.Address())
+    tx, err = FeeBurner.SetReserveData(Owner.TransactOpts(), TKNReserveAddress, big.NewInt(25), KNCWallet.Address())
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
@@ -204,8 +258,9 @@ var _ = BeforeEach(func() {
 	Expect(isSuccessful(tx)).To(BeTrue())
 
 
-    //deposit ETH and TKN to the reserve Contract
-    BankAccount.MustTransfer(Backend, KyberReserveAddress, EthToWei(100))
+    //deposit ETH and TKN to the reserve Contracts
+    BankAccount.MustTransfer(Backend, TKNReserveAddress, EthToWei(100))
+    BankAccount.MustTransfer(Backend, DAIReserveAddress, EthToWei(100))
     BankAccount.MustTransfer(Backend, KNCWallet.Address(), EthToWei(1))
     BankAccount.MustTransfer(Backend, TKNWallet.Address(), EthToWei(1))
 
@@ -214,10 +269,20 @@ var _ = BeforeEach(func() {
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
 
-    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), KyberReserveAddress, big.NewInt(3700000000000))
+    tx, err = TKNBurner.Approve(TKNWallet.TransactOpts(), TKNReserveAddress, big.NewInt(3700000000000))
     Expect(err).ToNot(HaveOccurred())
     Backend.Commit()
     Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = DAI.Mint(Owner.TransactOpts(), DAIReserveAddress, EthToWei(38000))
+    Expect(err).ToNot(HaveOccurred())
+    Backend.Commit()
+    Expect(isSuccessful(tx)).To(BeTrue())
+
+    tx, err = DAIReserve.ApproveWithdrawAddress(Owner.TransactOpts(), DAIAddress, Owner.Address(), true)
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
 
     tx, err = KNCBurner.Mint(Owner.TransactOpts(), KNCWallet.Address(), EthToWei(38000))
     Expect(err).ToNot(HaveOccurred())
