@@ -247,6 +247,11 @@ var _ = BeforeEach(func() {
 	Backend.Commit()
 	Expect(isSuccessful(tx)).To(BeTrue())
 
+    tx, err = FeeBurner.SetReserveData(Owner.TransactOpts(), DAIReserveAddress, big.NewInt(25), KNCWallet.Address())
+    Expect(err).ToNot(HaveOccurred())
+	Backend.Commit()
+	Expect(isSuccessful(tx)).To(BeTrue())
+
     tx, err = FeeBurner.SetWalletFees(Owner.TransactOpts(), KNCWallet.Address(), big.NewInt(25))
     Expect(err).ToNot(HaveOccurred())
 	Backend.Commit()
