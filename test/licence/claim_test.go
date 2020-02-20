@@ -18,12 +18,6 @@ var _ = Describe("LicenceClaim", func() {
 		Expect(b.String()).To(Equal("0"))
 	})
 
-	It("the initial ERC20 type-1 balance of the Licence contract should be zero", func() {
-		b, err := ERC20Contract1.BalanceOf(nil, LicenceAddress)
-		Expect(err).ToNot(HaveOccurred())
-		Expect(b.String()).To(Equal("0"))
-	})
-
 	It("the initial ERC20 type-1 balance of the RandomAccount  should be zero", func() {
 		b, err := ERC20Contract1.BalanceOf(nil, RandomAccount.Address())
 		Expect(err).ToNot(HaveOccurred())
