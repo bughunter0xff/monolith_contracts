@@ -217,7 +217,7 @@ workflows:
           filters:
             tags:
               ignore: ""
-      # - echidna:
-      #     filters:
-      #       tags:
-      #         ignore: ""
+      - echidna:
+          filters:
+            tags:
+              ignore: ""
